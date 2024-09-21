@@ -1,14 +1,16 @@
 function handleStudentTabEdits(e, column, row, editedValue) {
-  if (column >= 13 && column <= 16) {
-    //console.log("Checking indv");
-    handleIndV(e, column, row, editedValue);
+
+  if (column >= constant.HOUR_START_COL_NUMBER && column <= constant.HOUR_END_COL_NUMBER) {
+
+    handleIndV(row, editedValue);
+    notifyStudentSlotBookingToClient(getCellValue(constant.STUDENT_TAB_NAME,constant.STUDENT_NAME_COL+row),editedValue)
   }
   getDropDownValues();
 }
 
-function handleIndV(e, column, row, editedValue) {
+function handleIndV( row, editedValue) {
   try {
-    if (isCellTrue("Student", row)) {
+    if (isCellTrue(constant.STUDENT_TAB_NAME, row)) {
       const [tabName, editedSlot, editedCourse] = editedValue.split("_");
       const tab = getTab(tabName);
 
@@ -27,7 +29,7 @@ function handleIndV(e, column, row, editedValue) {
 }
 
 function isCellTrue(sheetName, row) {
-  return getCellValue(sheetName, "L" + row) === true;
+  return getCellValue(sheetName, constant.INDIVIDUAL_CELL + row) === true;
 }
 
 function processDataEntries(data, editedSlot, editedCourse, tab) {
@@ -58,11 +60,14 @@ function updateValuesInTab(tab, index, course) {
 
   courseMappedWithTotalSeat.forEach((courseRow) => {
     if (courseRow[0] === course) {
-      const repeatValue = courseRow[1];
-      const range = tab.getRange("D" + (index + 1) + ":" + getColumnFromIndex(2 + repeatValue) + (index + 1));
+      const repeatValue = courseRow[1]-1;
+      const range = tab.getRange("D" + (index + 1) + ":" + getColumnFromIndex(3 + repeatValue) + (index + 1));
+      console.log("D" + (index + 1) + ":" + getColumnFromIndex(2 + repeatValue) + (index + 1))
       const valueToSet = repeatValue > 0 ? Array(repeatValue).fill("___") : [];
+      console.log("Here is the value to set: ",valueToSet)
       range.setValues([valueToSet]);
       getDropDownValues();
     }
   });
 }
+

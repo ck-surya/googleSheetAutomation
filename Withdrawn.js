@@ -1,20 +1,23 @@
 function markAsWithdrawn(e) {
   var ss = getActiveSs()
-  var sheet = getTab("Student");
-  var dataRange = sheet.getRange('A2:S'); // Adjust the range as necessary  
+  var tab = getTab(constant.STUDENT_TAB_NAME);
+  var dataRange = tab.getRange('A2:S');   
 
-  var withdrawnSheet = ss.getSheetByName('Withdrawn Students');
+  var withdrawnSheet = ss.getSheetByName(constant.WITHDRAWN_TAB_NAME);
 
   var data = dataRange.getValues();
 
   for (var i = data.length - 1; i >= 0; i--) {
-    if (data[i][9] === "Withdrawn") {
+    if (data[i][9] === constant.STUDENT_STATUS) {
+      const student_slots = data[i].slice(13,17);
+      const studentName = data[i][8];
+      var isNotified = notifyWithdrawnStudentToClient(studentName,student_slots);
       var reasonForWithdrawal = Browser.inputBox("Enter the reason for withdrawal for student: " + data[i][8]);
 
       var willReturn = Browser.inputBox("Will the student return? (Yes/No) for: " + data[i][8]);
       var withdrawalDate = new Date();
 
-      var notifiedDuringNotice = false;
+      var notifiedDuringNotice = isNotified;
       var withdrawnData = [
         ...data[i],
         withdrawalDate,
@@ -25,9 +28,9 @@ function markAsWithdrawn(e) {
 
       withdrawnSheet.appendRow(withdrawnData);
 
-      sendEmailNotification(data[i][8], withdrawalDate, reasonForWithdrawal);
+      // sendEmailNotification(data[i][8], withdrawalDate, reasonForWithdrawal);
 
-      sheet.deleteRow(i + 2);
+      tab.deleteRow(i + 2);
     }
   }
 }
