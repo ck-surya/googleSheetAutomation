@@ -1,9 +1,14 @@
-function addDropdownValues(courseMapWithAvailableSlot, courseMapWithCellRef) {
-  const keys = Object.keys(courseMapWithAvailableSlot);
-  keys.forEach(key => {
-    const slots = courseMapWithAvailableSlot[key];
-    const cells = courseMapWithCellRef[key];
+function updateStudentDropDownValues() {
+  var emptyCellMap = fetchCourseWiseEmptyCellsForStudents();
+  var availableSlotsMap = fetchAvailableSlotsForCourses();
+  addDropdownValues(availableSlotsMap, emptyCellMap);
+}
 
+function addDropdownValues(availableSlotsMap, emptyCellMap) {
+  const keys = Object.keys(availableSlotsMap);
+  keys.forEach(key => {
+    const slots = availableSlotsMap[key];
+    const cells = emptyCellMap[key]
     processCourses(slots, cells);
   });
 }
@@ -13,7 +18,6 @@ function processCourses(slots, cells) {
     if (cells.hasOwnProperty(course)) {
       const cellsArray = cells[course];
       const slotsArray = slots[course];
-
       handleValidation(cellsArray, slotsArray);
     }
   });
