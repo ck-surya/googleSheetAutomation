@@ -1,16 +1,16 @@
 function handleStudentTabEdits(e, column, row, editedValue) {
 
-  if (column >= constant.HOUR_START_COL_NUMBER && column <= constant.HOUR_END_COL_NUMBER) {
+  if (column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER) {
 
     handleIndV(row, editedValue);
-    notifyStudentSlotBookingToClient(getCellValue(constant.STUDENT_TAB_NAME,constant.STUDENT_NAME_COL+row),editedValue)
+    notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME,constants.STUDENT_NAME_COL+row),editedValue)
   }
-  getDropDownValues();
+  updateStudentDropDownValues();
 }
 
 function handleIndV( row, editedValue) {
   try {
-    if (isCellTrue(constant.STUDENT_TAB_NAME, row)) {
+    if (isCellTrue(constants.STUDENT_TAB_NAME, row)) {
       const [tabName, editedSlot, editedCourse] = editedValue.split("_");
       const tab = getTab(tabName);
 
@@ -29,7 +29,7 @@ function handleIndV( row, editedValue) {
 }
 
 function isCellTrue(sheetName, row) {
-  return getCellValue(sheetName, constant.INDIVIDUAL_CELL + row) === true;
+  return getCellValue(sheetName, constants.INDIVIDUAL_CELL + row) === true;
 }
 
 function processDataEntries(data, editedSlot, editedCourse, tab) {
@@ -66,7 +66,7 @@ function updateValuesInTab(tab, index, course) {
       const valueToSet = repeatValue > 0 ? Array(repeatValue).fill("___") : [];
       console.log("Here is the value to set: ",valueToSet)
       range.setValues([valueToSet]);
-      getDropDownValues();
+      updateStudentDropDownValues();
     }
   });
 }

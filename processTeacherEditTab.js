@@ -1,4 +1,4 @@
 function processTeacherEdit(range, editedTab, editedValue, teacherEmailAndId) {
-  getDropDownValues();
+  updateStudentDropDownValues();
   sendEmail(range, editedTab, editedValue, teacherEmailAndId);
 }

@@ -1,14 +1,14 @@
 function markAsWithdrawn(e) {
   var ss = getActiveSs()
-  var tab = getTab(constant.STUDENT_TAB_NAME);
+  var tab = getTab(constants.STUDENT_TAB_NAME);
   var dataRange = tab.getRange('A2:S');   
 
-  var withdrawnSheet = ss.getSheetByName(constant.WITHDRAWN_TAB_NAME);
+  var withdrawnSheet = ss.getSheetByName(constants.WITHDRAWN_TAB_NAME);
 
   var data = dataRange.getValues();
 
   for (var i = data.length - 1; i >= 0; i--) {
-    if (data[i][9] === constant.STUDENT_STATUS) {
+    if (data[i][9] === constants.STUDENT_STATUS) {
       const student_slots = data[i].slice(13,17);
       const studentName = data[i][8];
       var isNotified = notifyWithdrawnStudentToClient(studentName,student_slots);

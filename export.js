@@ -1,7 +1,7 @@
 function exportSchedule() {  
   var ss = getActiveSs();  
-  var sheet = getTab(constant.STUDENT_TAB_NAME);  
-  var exportFolderId = constant.EXPORT_ID;  
+  var sheet = getTab(constants.STUDENT_TAB_NAME);  
+  var exportFolderId = constants.EXPORT_ID;  
  
   var currentDate = new Date();  
   var weekName = "Week of " + currentDate.toDateString();  

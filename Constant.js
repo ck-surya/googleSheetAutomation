@@ -1,4 +1,4 @@
-function getConstants() {
+function getConstants() { //TODO: Set proper ranges based on real data
   return {
     TEACHER_EMAIL_CELL: "B2",
     DATA_START_ROW: 3,
@@ -10,7 +10,7 @@ function getConstants() {
     STUDENT_STATUS:"Withdrawn",
     STUDENT_TAB_NAME:"Student",
     TEACHER_EMAIL_AND_ID_REANGE:"D2:E20",
-    TEACHER_ID_RANGE_STRING:"E2:E4",
+    TEACHER_ID_RANGE_STRING:"E2:E", 
     META_TAB_NAME:"Meta",
     HOURS_CELL_REFRENCE_IN_META_SHEET:"L2:M12",
     EXPORT_ID:'1jfAdP08QXm7vQ8ju5zqOyqbShI1yRIAa',
@@ -24,7 +24,5 @@ function getConstants() {
     HOUR_START_COL_NUMBER:13,
     HOUR_END_COL_NUMBER:16,
     STUDENT_NAME_COL:"I"
-
-
   };
 }

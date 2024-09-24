@@ -1,4 +1,4 @@
-function getDropDownValues() {
+function updateStudentDropDownValues() {
   var allTeacherTab = getTeacherTabNameFromMasterTab();
   var courseMapWithCellRef = checkEmptyCells();
   const courseMappedWithTotalSeat = getMapForCourseSlot();
@@ -25,6 +25,10 @@ function getDropDownValues() {
   });
 
   addDropdownValues(courseMapWithAvailableSlot, courseMapWithCellRef);
+}
+
+function getTeacherTabNameFromMasterTab() {
+  return fetchCellValues(constants.TEACHER_MASTER_TAB_NAME, constants.TEACHER_ID_RANGE_STRING);
 }
 
 function processTabData(data, teacherTab, courseMapWithAvailableSlot, courseMappedWithTotalSeat) {

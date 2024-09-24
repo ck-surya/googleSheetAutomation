@@ -1,8 +1,8 @@
 function updateTeacherFormula(tabName) {
   var tab = getTab(tabName)
-  var startRow = 3;
+  var startRow = 3; //TODO: Move the harded value to contants. 
   var lastRow = tab.getLastRow();
-  for (var row = startRow; row <= lastRow; row++) {
+  for (var row = startRow; row <= lastRow; row++) { //TODO: Move the harded value to contants. 
     var formula = `=TRANSPOSE(IFERROR(ARRAYFORMULA(FILTER(FLATTEN({` +
       `IFERROR(FILTER(Student!$I$4:$I$100; Student!$N$4:$N$100=A1 & "_" & A${row} & "_" & B${row}); "");` +
       `IFERROR(FILTER(Student!$I$4:$I$100; Student!$O$4:$O$100=A1 & "_" & A${row} & "_" & B${row}); "");` +
@@ -14,7 +14,6 @@ function updateTeacherFormula(tabName) {
       `IFERROR(FILTER(Student!$I$4:$I$100; Student!$P$4:$P$100=A1 & "_" & A${row} & "_" & B${row}); "");` +
       `IFERROR(FILTER(Student!$I$4:$I$100; Student!$Q$4:$Q$100=A1 & "_" & A${row} & "_" & B${row}); "")` +
       `})) > 0));""))`;
-
-    tab.getRange(row, 3).setFormula(formula);
+    tab.getRange(row, 3).setFormula(formula); //TODO: Move the harded value to contants. 
   }
 }

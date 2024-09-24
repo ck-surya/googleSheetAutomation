@@ -3,34 +3,44 @@ function generateTeacherTab() {
   const teacherTabTemplate = getTeacherTabTemplate();
 
   teacherInfo.forEach(teacher => {
-    const teacherName = teacher[4];
-    const teacherEmail = teacher[3];
+    const teacherName = teacher[4]; //TODO: Move the harded value to contants. 
     if (getTab(teacherName) === null ) {
-      createTeacherTab(teacherName, teacher, teacherTabTemplate,teacherEmail);
+      const teacherEmail = teacher[3]; //TODO: Move the harded value to contants. 
+      const courses = teacher[5]; //TODO: Move the harded value to contants. 
+      const slots = teacher[6]; //TODO: Move the harded value to contants. 
+      createTeacherTab(teacherName, teacherEmail, courses, slots, teacherTabTemplate);
     }
   });
 }
 
-function createTeacherTab(teacherName, teacher, template,teacherEmail) {
-  var constant = getConstants()
+function getAllTeachers() {
+  var masterSheetName = constants.TEACHER_MASTER_TAB_NAME;
+  var lastRow = getTab(masterSheetName).getLastRow();
+  return fetchValuesInRange(masterSheetName, "A2:G" + lastRow); //TODO: Move the harded value to contants. 
+}
+
+function getTeacherTabTemplate() {
+  return fetchCellValues(constants.GET_TEACHER_TEMPLATE_TAB_NAME,constants.TEACHER_DETAILS_RANGE, true);
+}
+
+function createTeacherTab(teacherName, teacherEmail, courses, slots, template) {
   insertNewTab(teacherName);
   addDataToTab([[teacherName,teacherEmail]], teacherName);
-  hideRangeOfRows(teacherName);
+  hideFirstfRow(teacherName);
 
-  const formattedSlots = formatSlots(teacher[6]);
-  const dropdownOptions = formatDropdownOptions(teacher[5]);
+  const formattedSlots = formatSlots(slots);
+  const courseOptions = formatCourseOptions(courses);
 
   addDataToTab(template, teacherName);
   addDataToTab(formattedSlots, teacherName);
-  addDataValidationDropdown(dropdownOptions, teacherName,constant.COURSE_RANGE_IN_TEACHER_TAB );
+  addDataValidationDropdown(dropdownOptions, teacherName, constants.COURSE_RANGE_IN_TEACHER_TAB);
   updateTeacherFormula(teacherName);
 }
 
-function formatSlots(slotsString) {
-  const slotsArray = slotsString.split(",");
-  return slotsArray.map(slot => [slot.trim()]);
+function formatSlots(slots) {
+  return formatOptions(slots);
 }
 
-function formatDropdownOptions(optionsString) {
-  return optionsString.split(",").map(option => option.trim());
+function formatCourseOptions(courses) {
+  return formatOptions(courses);
 }
