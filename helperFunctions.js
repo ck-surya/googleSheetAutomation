@@ -11,6 +11,17 @@ function addDataValidationDropdown(dropdownOptions, sheetName, startRange) { //T
   rangeForDropdown.setDataValidation(rule);
 }
 
+function getCellValue(tabName, cell) {
+  const tab = getTab(tabName);
+  const cellReference = cell;
+  const cellValue = tab.getRange(cellReference).getValue();
+  return cellValue;
+}
+
+function isValueEmpty(value) {
+  return value.length === 0;
+}
+
 function hideFirstfRow(tabName) {
   const tab = getTab(tabName)
   tab.hideRows(1, 1);  

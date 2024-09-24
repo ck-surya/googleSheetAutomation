@@ -1,5 +1,5 @@
 function onOpen() {  
-  var ui = SpreadsheetApp.getUi();  context  
+  var ui = SpreadsheetApp.getUi();  
   ui.createMenu("Custom Filter")  
     .addItem("Generate Teacher Tab", "generateTeacherTab")  
     .addItem("Update Dropdown option","updateStudentDropDownValues")  
