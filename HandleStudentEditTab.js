@@ -1,9 +1,10 @@
 function handleStudentTabEdits(e, column, row, editedValue) {
-
   if (column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER) {
-
-    handleIndV(row, editedValue);
     notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row), editedValue)
+    handleIndV(row, editedValue);
+  }
+  if (editedValue == "Withdrawn") {
+    markAsWithdrawn()
   }
   updateStudentDropDownValues();
 }

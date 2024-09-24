@@ -1,7 +1,7 @@
-function markAsWithdrawn(e) {
+function markAsWithdrawn() {
   var ss = getActiveSs()
   var tab = getTab(constants.STUDENT_TAB_NAME);
-  var dataRange = tab.getRange('A2:S');
+  var dataRange = tab.getRange(constants.STUDENT_ROW_DATA_RANGE);
 
   var withdrawnSheet = ss.getSheetByName(constants.WITHDRAWN_TAB_NAME);
 

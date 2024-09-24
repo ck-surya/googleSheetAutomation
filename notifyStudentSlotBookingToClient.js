@@ -1,13 +1,14 @@
 function notifyStudentSlotBookingToClient(studentName, studentSlot) {
+  Logger.log("Added slot...")
   const emailAndIdObject = getMappedTeacherIdAndEmail()
   if (studentSlot.length) {
     const teacherId = studentSlot.split("_")[0];
     const teacherEmail = emailAndIdObject[teacherId.trim()]
-    return handleSendingNotification(teacherEmail, studentName, studentSlot)
+    return handleSendingNotificationForSlotBooking(teacherEmail, studentName, studentSlot)
   }
 }
 
-function handleSendingNotification(teacherEmail, studentName, slotName) {
+function handleSendingNotificationForSlotBooking(teacherEmail, studentName, slotName) {
   console.log(slotName.split("_")[0].split("-")[1].trim())
   const teacherName = slotName.split("_")[0].split("-")[1].trim()
   const emailTemplate = `  

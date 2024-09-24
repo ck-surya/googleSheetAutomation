@@ -1,15 +1,15 @@
-function onOpen() {  
-  var ui = SpreadsheetApp.getUi();  
-  ui.createMenu("Custom Filter")  
-    .addItem("Generate Teacher Tab", "generateTeacherTab")  
-    .addItem("Update Dropdown option","updateStudentDropDownValues")  
-    .addToUi();  
-}  
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu("Custom Filter")
+    .addItem("Generate Teacher Tab", "generateTeacherTab")
+    .addItem("Update Dropdown option", "updateStudentDropDownValues")
+    .addToUi();
+}
 
 var constants = getConstants();
 
 function handleEdit(e) {
-  console.log("Trigger the Edit Event");
+  Logger.log("Trigger the Edit Event");
 
   const range = e.range;
   const editedTab = range.getSheet();
@@ -20,17 +20,17 @@ function handleEdit(e) {
   const row = range.getRow();
 
   if (isTeacherTab(editedTab, teacherEmailAndId)) {
-    console.log("updating values for the teacher tab")
+    Logger.log("updating values for the teacher tab")
     processTeacherEdit(range, editedTab, editedValue, teacherEmailAndId);
   }
 
   if (isStudentTab(editedTab)) {
-    console.log("updating values for the student tab")
+    Logger.log("updating values for the student tab")
     handleStudentTabEdits(e, column, row, editedValue);
   }
 
-  if (editedValue ===constants.STUDENT_STATUS) {
-    console.log("updating values for the withdrawn tab")
+  if (editedValue === constants.STUDENT_STATUS) {
+    Logger.log("updating values for the withdrawn tab")
     markAsWithdrawn();
   }
 }
@@ -45,7 +45,7 @@ function isTeacherTab(sheet, teacherEmailAndId) {
 }
 
 function isStudentTab(sheet) {
-  return sheet.getName() ===constants.STUDENT_TAB_NAME;
+  return sheet.getName() === constants.STUDENT_TAB_NAME;
 }
 
 function getCellValue(tabName, cell) {

@@ -3,7 +3,7 @@ function getConstants() { //TODO: Set proper ranges based on real data
     TEACHER_EMAIL_CELL: "B2",
     START_ROW_FOR_UPDATING_FORMULA: 3,
     START_COL_FOR_UPDATING_FORMULA: 3,
-
+    STUDENT_ROW_DATA_RANGE:'A2:S',
     DATA_START_COLUMN: 1,
     SLOT_COLUMN: 0,
     FIRST_STUDENT_COLUMN: 2,

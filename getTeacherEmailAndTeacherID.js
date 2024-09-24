@@ -1,6 +1,6 @@
 function getTeacherNameAndEmailId() {
   try {
-    const result = fetchCellValues(constant.TEACHER_MASTER_TAB_NAME, constant.TEACHER_EMAIL_AND_ID_REANGE, true);
+    const result = fetchCellValues(constants.TEACHER_MASTER_TAB_NAME, constants.TEACHER_EMAIL_AND_ID_REANGE, true);
     if (result.length === 0) {
       console.log("No teacher data found in the specified range.");
     } else {

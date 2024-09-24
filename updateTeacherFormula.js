@@ -12,15 +12,15 @@ function updateTeacherFormula(tabName) {
 
   for (var row = startRow; row <= lastRow; row++) {
     var formula = `=TRANSPOSE(IFERROR(ARRAYFORMULA(FILTER(FLATTEN({` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour1Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour2Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour3Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour4Range}=A1 & "_" & A${row} & "_" & B${row}); "")` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour1Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour2Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour3Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour4Range}=A1 & "_" & A${row} & "_" & B${row}); "")` +
       `}); LEN(FLATTEN({` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour1Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour2Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour3Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
-      `IFERROR(FILTER(Student!{studentNameRange}; Student!{studentHour4Range}=A1 & "_" & A${row} & "_" & B${row}); "")` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour1Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour2Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour3Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
+      `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour4Range}=A1 & "_" & A${row} & "_" & B${row}); "")` +
       `})) > 0));""))`;
     tab.getRange(row, constants.START_COL_FOR_UPDATING_FORMULA).setFormula(formula);
   }

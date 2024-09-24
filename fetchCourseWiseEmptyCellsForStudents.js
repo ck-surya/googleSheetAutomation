@@ -23,9 +23,9 @@ function populateCourseMap(values, courseMapWithCell) {
       if (cellReference === false)
         return;
       if (row[4] === true) {
-        courseMapWithCell.indV[row[2]].push(isEmpty);
+        courseMapWithCell.indV[row[2]].push(cellReference);
       } else {
-        courseMapWithCell.otherV[row[2]].push(isEmpty);
+        courseMapWithCell.otherV[row[2]].push(cellReference);
       }
     });
   });
