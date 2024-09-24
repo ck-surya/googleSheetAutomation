@@ -3,12 +3,12 @@ function handleStudentTabEdits(e, column, row, editedValue) {
   if (column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER) {
 
     handleIndV(row, editedValue);
-    notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME,constants.STUDENT_NAME_COL+row),editedValue)
+    notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row), editedValue)
   }
   updateStudentDropDownValues();
 }
 
-function handleIndV( row, editedValue) {
+function handleIndV(row, editedValue) {
   try {
     if (isCellTrue(constants.STUDENT_TAB_NAME, row)) {
       const [tabName, editedSlot, editedCourse] = editedValue.split("_");
@@ -17,7 +17,6 @@ function handleIndV( row, editedValue) {
       if (!tab) {
         throw new Error(`Tab "${tabName}" not found.`);
       }
-
       const data = tab.getDataRange().getValues();
       processDataEntries(data, editedSlot, editedCourse, tab);
     } else {
@@ -60,11 +59,9 @@ function updateValuesInTab(tab, index, course) {
 
   courseMappedWithTotalSeat.forEach((courseRow) => {
     if (courseRow[0] === course) {
-      const repeatValue = courseRow[1]-1;
-      const range = tab.getRange("D" + (index + 1) + ":" + getColumnFromIndex(3 + repeatValue) + (index + 1));
-      console.log("D" + (index + 1) + ":" + getColumnFromIndex(2 + repeatValue) + (index + 1))
+      const repeatValue = courseRow[1] - 1;
+      const range = tab.getRange(constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB + (index + 1) + ":" + getColumnFromIndex(3 + repeatValue) + (index + 1));
       const valueToSet = repeatValue > 0 ? Array(repeatValue).fill("___") : [];
-      console.log("Here is the value to set: ",valueToSet)
       range.setValues([valueToSet]);
       updateStudentDropDownValues();
     }

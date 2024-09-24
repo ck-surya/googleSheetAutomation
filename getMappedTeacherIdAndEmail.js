@@ -3,11 +3,10 @@ function getMappedTeacherIdAndEmail() {
   return mappedIdAndEmail(teacherInfo)
 }
 
-
-function mappedIdAndEmail(data){
+function mappedIdAndEmail(data) {
   const object = {}
-  data.map((el)=>{
-    if(el.length){
+  data.map((el) => {
+    if (el.length) {
       object[el[1]] = el[0]
     }
   })

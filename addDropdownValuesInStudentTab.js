@@ -21,18 +21,15 @@ function processCourses(slots, cells) {
 
 function handleValidation(cellsArray, slotsArray) {
   if (cellsArray.length > 0 && slotsArray.length > 0) {
-    addValidationToEmptyCells(cellsArray, "Student", slotsArray);
+    addValidationToEmptyCells(cellsArray, constants.STUDENT_TAB_NAME, slotsArray);
   } else if (slotsArray.length === 0 && cellsArray.length > 0) {
-    addValidationToEmptyCells(cellsArray, "Student", ["Not Available"]);
+    addValidationToEmptyCells(cellsArray, constants.STUDENT_TAB_NAME, ["Not Available"]);
   }
 }
 
 function addValidationToEmptyCells(array, tabName, options) {
-  //console.log(options)
   const emptyCellReferences = array;
-  //console.log(array)
   const tab = getTab(tabName)
-
   const rangeString = emptyCellReferences.join(',');
 
   const rule = SpreadsheetApp.newDataValidation()

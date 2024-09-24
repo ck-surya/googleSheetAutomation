@@ -5,8 +5,6 @@ function updateStudentDropDownValues() {
   var courses = courseMappedWithTotalSeat.map(course => course[0]);
   var courseMapWithAvailableSlot = initializeCourseMap(courses);
 
-  //console.log(courseMapWithAvailableSlot);
-
   allTeacherTab.forEach(teacherTab => {
     const tab = getTab(teacherTab);
     const data = tab.getDataRange().getValues();
@@ -43,10 +41,10 @@ function updateIndVAvailability(teacherTab, slot, course, studentsCount, courseM
       if (courseMapWithAvailableSlot.indV[course] !== undefined) {
         courseMapWithAvailableSlot.indV[course].push(teacherTab + "_" + slot + "_" + course);
       } else {
-        console.log("Course does not exist in indV: " + course);  
+        console.log("Course does not exist in indV: " + course);
       }
     } else {
-      console.log("courseMapWithAvailableSlot or indV is not defined");  
+      console.log("courseMapWithAvailableSlot or indV is not defined");
     }
   }
 }

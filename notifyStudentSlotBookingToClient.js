@@ -1,11 +1,10 @@
 function notifyStudentSlotBookingToClient(studentName, studentSlot) {
   const emailAndIdObject = getMappedTeacherIdAndEmail()
-    if (studentSlot.length) {
-      const teacherId = studentSlot.split("_")[0];
-      const teacherEmail = emailAndIdObject[teacherId.trim()]
-      return handleSendingNotification(teacherEmail, studentName, studentSlot)
-    }
-
+  if (studentSlot.length) {
+    const teacherId = studentSlot.split("_")[0];
+    const teacherEmail = emailAndIdObject[teacherId.trim()]
+    return handleSendingNotification(teacherEmail, studentName, studentSlot)
+  }
 }
 
 function handleSendingNotification(teacherEmail, studentName, slotName) {

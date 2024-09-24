@@ -1,7 +1,7 @@
-function addDataValidationDropdown(dropdownOptions, sheetName, startRange) { //TODO: fix this to make it more generic
+function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown) {
   var tab = getTab(sheetName);
   var lastRow = tab.getLastRow();
-  var rangeForDropdown = tab.getRange(startRange + lastRow);
+  var rangeForDropdown = tab.getRange(rangeForDropdown);
 
   var rule = SpreadsheetApp.newDataValidation()
     .requireValueInList(dropdownOptions)
@@ -24,7 +24,7 @@ function isValueEmpty(value) {
 
 function hideFirstfRow(tabName) {
   const tab = getTab(tabName)
-  tab.hideRows(1, 1);  
+  tab.hideRows(1, 1);
 }
 
 function addDataToTab(data, sheetName) {
@@ -75,7 +75,6 @@ function fetchCellValues(tab_name, range, make_2d = false) {
       result.push(inner);
     }
   }
-  // Logger.log(result);
   return result;
 }
 
