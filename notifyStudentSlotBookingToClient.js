@@ -1,6 +1,6 @@
 function notifyStudentSlotBookingToClient(studentName, studentSlot) {
-  Logger.log("Added slot...")
-  const emailAndIdObject = getMappedTeacherIdAndEmail()
+  Logger.log("Added slot...");
+  const emailAndIdObject = getAllTeacherIdsAndEmailsMap();
   if (studentSlot.length) {
     const teacherId = studentSlot.split("_")[0];
     const teacherEmail = emailAndIdObject[teacherId.trim()]
@@ -20,5 +20,5 @@ I wanted to inform you that the student, ${studentName}, has been added to your 
 Thanks and regards,  
 Upwork`;
   const emailSubject = "Notification of Student Slot Booking of Your Slot";
-  return sendEmail(teacherEmail, "cksurya7319@gmail.com", emailSubject, emailTemplate)
+  return sendEmail(teacherEmail, constants.EMAIL_ADDRESS_FROM, emailSubject, emailTemplate);
 }

@@ -2,8 +2,7 @@ function handleStudentTabEdits(e, column, row, editedValue) {
   if (column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER) {
     notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row), editedValue)
     handleIndV(row, editedValue);
-  }  
-  if (editedValue === constants.STUDENT_STATUS) {
+  } else if (column === COLUMN_STATUS_IN_SUDENT_TAB && editedValue === constants.STUDENT_STATUS_WITHDRAWN) {
     Logger.log("updating values for the withdrawn tab")
     markAsWithdrawn();
   }
@@ -12,7 +11,7 @@ function handleStudentTabEdits(e, column, row, editedValue) {
 
 function handleIndV(row, editedValue) {
   try {
-    if (isCellTrue(constants.STUDENT_TAB_NAME, row)) {
+    if (isCellTrue(constants.STUDENT_TAB_NAME, row, constants.COLUMN_NAME_INDIVIDUAL_IN_STUDENT_TAB)) {
       const [tabName, editedSlot, editedCourse] = editedValue.split("_");
       const tab = getTab(tabName);
 
@@ -27,10 +26,6 @@ function handleIndV(row, editedValue) {
   } catch (error) {
     console.error("Error in handleIndV:", error.message);
   }
-}
-
-function isCellTrue(sheetName, row) {
-  return getCellValue(sheetName, constants.INDIVIDUAL_CELL + row) === true;
 }
 
 function processDataEntries(data, editedSlot, editedCourse, tab) {

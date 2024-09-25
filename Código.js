@@ -15,13 +15,13 @@ function handleEdit(e) {
   const editedTab = range.getSheet();
   const editedValue = range.getValue();
 
-  const teacherEmailAndId = getTeacherNameAndEmailId();
+  const teacherEmailAndId = getAllTeacherIdsAndEmails();
   const column = range.getColumn();
   const row = range.getRow();
 
   if (isTeacherTab(editedTab, teacherEmailAndId)) {
     Logger.log("updating values for the teacher tab")
-    processTeacherEdit(range, editedTab, editedValue, teacherEmailAndId);
+    processTeacherEdit(column);
   }
 
   if (isStudentTab(editedTab)) {

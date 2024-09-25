@@ -1,15 +1,13 @@
 function updateTeacherFormula(tabName) {
   var tab = getTab(tabName)
-  var studentTab = getTab(constants.STUDENT_TAB_NAME)
-  var studenTabLastRow = studentTab.getLastRow()
-  Logger.log(studenTabLastRow)
+  var studentTab = getTab(constants.STUDENT_TAB_NAME);
   var startRow = constants.START_ROW_FOR_UPDATING_FORMULA;
   var lastRow = tab.getLastRow();
-  var studentNameRange = constants.STUDENT_NAME_RANGE_IN_STUDENT_TAB + studenTabLastRow;
-  var studentHour1Range = constants.STUDENT_HOUR1_RANGE_IN_STUDENT_TAB + studenTabLastRow;
-  var studentHour2Range = constants.STUDENT_HOUR4_RANGE_IN_STUDENT_TAB + studenTabLastRow;
-  var studentHour3Range = constants.STUDENT_HOUR3_RANGE_IN_STUDENT_TAB + studenTabLastRow;
-  var studentHour4Range = constants.STUDENT_HOUR4_RANGE_IN_STUDENT_TAB + studenTabLastRow;
+  var studentNameRange = constants.STUDENT_NAME_RANGE_IN_STUDENT_TAB;
+  var studentHour1Range = constants.STUDENT_HOUR1_RANGE_IN_STUDENT_TAB;
+  var studentHour2Range = constants.STUDENT_HOUR2_RANGE_IN_STUDENT_TAB;
+  var studentHour3Range = constants.STUDENT_HOUR3_RANGE_IN_STUDENT_TAB;
+  var studentHour4Range = constants.STUDENT_HOUR4_RANGE_IN_STUDENT_TAB;
 
   for (var row = startRow; row <= lastRow; row++) {
     var formula = `=TRANSPOSE(IFERROR(ARRAYFORMULA(FILTER(FLATTEN({` +

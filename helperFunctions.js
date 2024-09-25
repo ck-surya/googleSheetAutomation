@@ -11,6 +11,10 @@ function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown)
   rangeForDropdown.setDataValidation(rule);
 }
 
+function isCellTrue(sheetName, row, column) {
+  return getCellValue(sheetName, column + row) === true;
+}
+
 function getCellValue(tabName, cell) {
   const tab = getTab(tabName);
   const cellReference = cell;

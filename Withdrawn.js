@@ -8,7 +8,7 @@ function markAsWithdrawn() {
   var data = dataRange.getValues();
 
   for (var i = data.length - 1; i >= 0; i--) {
-    if (data[i][9] === constants.STUDENT_STATUS) {
+    if (data[i][9] === constants.STUDENT_STATUS_WITHDRAWN) {
       const student_slots = data[i].slice(constants.HOUR_START_COL_NUMBER, constants.HOUR_END_COL_NUMBER);
       const studentName = data[i][constants.STUDENT_NAME_INDEX_IN_STUDENT_ROW_DATA];
       var isNotified = notifyWithdrawnStudentToClient(studentName, student_slots);

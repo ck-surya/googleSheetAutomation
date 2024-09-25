@@ -1,6 +1,7 @@
-function processTeacherEdit(range, editedTab, editedValue, teacherEmailAndId) {
-  updateStudentDropDownValues();
-  sendEmail(range, editedTab, editedValue, teacherEmailAndId);
+function processTeacherEdit(column) {
+  if (column === constants.COLUMN_COURSE_IN_TEACHER_TAB) {
+    updateStudentDropDownValues(); 
+  }
 }
 
 function fetchAvailableSlotsForCourses() {
