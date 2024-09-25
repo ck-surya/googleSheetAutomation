@@ -3,12 +3,12 @@ function generateTeacherTab() {
   const teacherTabTemplate = getTeacherTabTemplate();
 
   teacherInfo.forEach(teacher => {
-    const teacherName = teacher[constants.TEACHER_NAME_INDEX_IN_TEACHER_ARRAY];
-    if (getTab(teacherName) === null) {
+    const teacherId = teacher[constants.TEACHER_ID_INDEX_IN_TEACHER_ARRAY];
+    if (getTab(teacherId) === null) {
       const teacherEmail = teacher[constants.TEACHER_EMAIL_INDEX_IN_TEACHER_ARRAY];
       const courses = teacher[constants.TEACHER_COURSES_INDEX_IN_TEACHER_ARRAY];
       const slots = teacher[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY];
-      createTeacherTab(teacherName, teacherEmail, courses, slots, teacherTabTemplate);
+      createTeacherTab(teacherId, teacherEmail, courses, slots, teacherTabTemplate);
     }
   });
 }

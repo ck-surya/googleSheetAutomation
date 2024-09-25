@@ -6,7 +6,7 @@ function fetchAvailableSlotsForCourses() {
 	var allTeachers = getAllTeacherIds();
   	allTeachers.forEach(teacherId => {
     	const teacherTab = getTab(teacherId);
-    	const teacherData = tab.getDataRange().getValues();
+    	const teacherData = teacherTab.getDataRange().getValues();
     	//console.log(data)
     	processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots);
   });
@@ -35,7 +35,7 @@ function updateIndVAvailability(teacherId, slot, course, studentsCount, courseMa
   if (studentsCount === 0) {
     if (courseMapWithAvailableSlot && courseMapWithAvailableSlot.indV) {
       if (courseMapWithAvailableSlot.indV[course] !== undefined) {
-        courseMapWithAvailableSlot.indV[course].push(teacherTab + "_" + slot + "_" + course);
+        courseMapWithAvailableSlot.indV[course].push(teacherId + "_" + slot + "_" + course);
       } else {
         console.log("Course does not exist in indV: " + course);
       }
@@ -46,9 +46,9 @@ function updateIndVAvailability(teacherId, slot, course, studentsCount, courseMa
 }
 
 function updateOtherVAvailability(teacherId, slot, course, studentsCount, courseMapWithAvailableSlot, courseSlots) {
-  courseMappedWithTotalSeat.forEach(mappedRow => {
+  courseSlots.forEach(mappedRow => {
     if (mappedRow[0] === course.trim() && mappedRow[1] > studentsCount) {
-      courseMapWithAvailableSlot.otherV[course].push(teacherTab + "_" + slot + "_" + course);
+      courseMapWithAvailableSlot.otherV[course].push(teacherId + "_" + slot + "_" + course);
     } else {
 
     }
@@ -56,5 +56,5 @@ function updateOtherVAvailability(teacherId, slot, course, studentsCount, course
 }
 
 function countNonEmptyStudents(studentArray) {
-  return studentArray.filter(student => student.length).length; // Counts non-empty entries  
+  return studentArray.filter(student => student.length).length;  
 }

@@ -14,6 +14,7 @@ function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown)
 function getCellValue(tabName, cell) {
   const tab = getTab(tabName);
   const cellReference = cell;
+  console.log(cell)
   const cellValue = tab.getRange(cellReference).getValue();
   return cellValue;
 }

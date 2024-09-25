@@ -2,6 +2,7 @@ function updateTeacherFormula(tabName) {
   var tab = getTab(tabName)
   var studentTab = getTab(constants.STUDENT_TAB_NAME)
   var studenTabLastRow = studentTab.getLastRow()
+  console.log(studenTabLastRow)
   var startRow = constants.START_ROW_FOR_UPDATING_FORMULA;
   var lastRow = tab.getLastRow();
   var studentNameRange = constants.STUDENT_NAME_RANGE_IN_STUDENT_TAB + studenTabLastRow;

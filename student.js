@@ -34,8 +34,8 @@ function populateCourseMap(values, courseMapWithCell) {
 function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
   const rowNumber = rowIndex + 4; //TODO: Move the harded value to contants. 
   if (cellValue === "") {
-    const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber; //TODO: Move the harded value to contants. 
-    var course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL_NAME + rowNumber) //TODO: Move the harded value to contants. 
+    const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber; 
+    var course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber) 
     if (course.length > 0) {
       return cellReference;
     } return false
