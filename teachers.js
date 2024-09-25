@@ -1,3 +1,8 @@
+function processTeacherEdit(range, editedTab, editedValue, teacherEmailAndId) {
+  updateStudentDropDownValues();
+  sendEmail(range, editedTab, editedValue, teacherEmailAndId);
+}
+
 function fetchAvailableSlotsForCourses() {
 	const courseSlots = getMapForCourseSlot();
   	var courses = courseSlots.map(course => course[0]);
@@ -7,7 +12,7 @@ function fetchAvailableSlotsForCourses() {
   	allTeachers.forEach(teacherId => {
     	const teacherTab = getTab(teacherId);
     	const teacherData = teacherTab.getDataRange().getValues();
-    	//console.log(data)
+    	//Logger.log(data)
     	processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots);
   });
   return courseMapWithAvailableSlot;
@@ -24,7 +29,7 @@ function processTabData(teacherId, teacherData, courseMapWithAvailableSlot, cour
     const slot = row[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
     const course = row[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
     const studentsCount = countNonEmptyStudents(row.slice(2));
-    //console.log(teacherTab + "_" + slot + "_" + course, studentsCount)
+    //Logger.log(teacherTab + "_" + slot + "_" + course, studentsCount)
 
     updateIndVAvailability(teacherId, slot, course, studentsCount, courseMapWithAvailableSlot);
     updateOtherVAvailability(teacherId, slot, course, studentsCount, courseMapWithAvailableSlot, courseSlots);
@@ -37,10 +42,10 @@ function updateIndVAvailability(teacherId, slot, course, studentsCount, courseMa
       if (courseMapWithAvailableSlot.indV[course] !== undefined) {
         courseMapWithAvailableSlot.indV[course].push(teacherId + "_" + slot + "_" + course);
       } else {
-        console.log("Course does not exist in indV: " + course);
+        Logger.log("Course does not exist in indV: " + course);
       }
     } else {
-      console.log("courseMapWithAvailableSlot or indV is not defined");
+      Logger.log("courseMapWithAvailableSlot or indV is not defined");
     }
   }
 }

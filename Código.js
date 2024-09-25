@@ -28,9 +28,4 @@ function handleEdit(e) {
     Logger.log("updating values for the student tab")
     handleStudentTabEdits(e, column, row, editedValue);
   }
-
-  if (editedValue === constants.STUDENT_STATUS) {
-    Logger.log("updating values for the withdrawn tab")
-    markAsWithdrawn();
-  }
 }

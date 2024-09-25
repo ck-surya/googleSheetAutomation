@@ -9,7 +9,7 @@ function notifyStudentSlotBookingToClient(studentName, studentSlot) {
 }
 
 function handleSendingNotificationForSlotBooking(teacherEmail, studentName, slotName) {
-  console.log(slotName.split("_")[0].split("-")[1].trim())
+  Logger.log(slotName.split("_")[0].split("-")[1].trim())
   const teacherName = slotName.split("_")[0].split("-")[1].trim()
   const emailTemplate = `  
 

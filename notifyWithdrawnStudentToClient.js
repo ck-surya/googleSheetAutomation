@@ -1,5 +1,5 @@
 function notifyWithdrawnStudentToClient(studentName, studentSlots) {
-  console.log(studentSlots)
+  Logger.log(studentSlots)
   const emailAndIdObject = getMappedTeacherIdAndEmail()
   studentSlots.map((studentSlot) => {
     if (studentSlot.length) {
@@ -11,7 +11,7 @@ function notifyWithdrawnStudentToClient(studentName, studentSlots) {
 }
 
 function handleSendingNotification(teacherEmail, studentName, slotName) {
-  console.log(slotName.split("_")[0].split("-")[1].trim())
+  Logger.log(slotName.split("_")[0].split("-")[1].trim())
   const teacherName = slotName.split("_")[0].split("-")[1].trim()
   const emailTemplate = `  
 
