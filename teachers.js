@@ -20,9 +20,9 @@ function getAllTeacherIds() {
 function processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots) {
   teacherData.forEach((row, index) => {
     if (index < 2) return; // Skip header  
-
-    const slot = row[0]; //TODO: rmeove hardcoding values to constants
-    const course = row[1]; //TODO: rmeove hardcoding values to constants
+  
+    const slot = row[TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
+    const course = row[TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
     const studentsCount = countNonEmptyStudents(row.slice(2));
     //console.log(teacherTab + "_" + slot + "_" + course, studentsCount)
 

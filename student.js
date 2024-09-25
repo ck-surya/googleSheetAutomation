@@ -16,13 +16,13 @@ function fetchCourseWiseEmptyCellsForStudents() {
 
 function populateCourseMap(values, courseMapWithCell) {
   values.forEach((row, rowIndex) => {
-    const hoursValues = row.slice(4);
+    const hoursValues = row.slice(constants.SLICE_TEACHER_DATA_FOR_THE_STUDENT_COUNT);
 
     hoursValues.forEach((cellValue, colIndex) => {
       const cellReference = fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex);
       if (cellReference === false)
         return;
-      if (row[4] === true) {
+      if (row[constants.INDIVIDUAL_COL_NUMBER] === true) {
         courseMapWithCell.indV[row[2]].push(cellReference);
       } else {
         courseMapWithCell.otherV[row[2]].push(cellReference);
@@ -32,7 +32,7 @@ function populateCourseMap(values, courseMapWithCell) {
 }
 
 function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
-  const rowNumber = rowIndex + 4; //TODO: Move the harded value to contants. 
+  const rowNumber = rowIndex + 4; 
   if (cellValue === "") {
     const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber; 
     var course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber) 

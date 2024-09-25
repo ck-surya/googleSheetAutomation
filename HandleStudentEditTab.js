@@ -37,8 +37,8 @@ function processDataEntries(data, editedSlot, editedCourse, tab) {
   data.forEach((rowData, index) => {
     if (index === 0) return; // Skip header row  
 
-    const slot = rowData[0];
-    const course = rowData[1];
+    const slot = rowData[TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
+    const course = rowData[TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
 
     if (slot === editedSlot && course === editedCourse) {
       entryFound = true;
