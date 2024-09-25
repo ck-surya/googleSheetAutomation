@@ -21,8 +21,8 @@ function processTabData(teacherId, teacherData, courseMapWithAvailableSlot, cour
   teacherData.forEach((row, index) => {
     if (index < 2) return; // Skip header  
   
-    const slot = row[TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
-    const course = row[TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
+    const slot = row[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
+    const course = row[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
     const studentsCount = countNonEmptyStudents(row.slice(2));
     //console.log(teacherTab + "_" + slot + "_" + course, studentsCount)
 
