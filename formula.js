@@ -1,16 +1,15 @@
 function updateTeacherFormula(tabName) {
-  var tab = getTab(tabName)
-  var studentTab = getTab(constants.STUDENT_TAB_NAME);
-  var startRow = constants.START_ROW_FOR_UPDATING_FORMULA;
-  var lastRow = tab.getLastRow();
-  var studentNameRange = constants.STUDENT_NAME_RANGE_IN_STUDENT_TAB;
-  var studentHour1Range = constants.STUDENT_HOUR1_RANGE_IN_STUDENT_TAB;
-  var studentHour2Range = constants.STUDENT_HOUR2_RANGE_IN_STUDENT_TAB;
-  var studentHour3Range = constants.STUDENT_HOUR3_RANGE_IN_STUDENT_TAB;
-  var studentHour4Range = constants.STUDENT_HOUR4_RANGE_IN_STUDENT_TAB;
+  const tab = getTab(tabName);
+  const startRow = constants.START_ROW_FOR_UPDATING_FORMULA;
+  const lastRow = tab.getLastRow();
+  const studentNameRange = constants.STUDENT_NAME_RANGE_IN_STUDENT_TAB;
+  const studentHour1Range = constants.STUDENT_HOUR1_RANGE_IN_STUDENT_TAB;
+  const studentHour2Range = constants.STUDENT_HOUR2_RANGE_IN_STUDENT_TAB;
+  const studentHour3Range = constants.STUDENT_HOUR3_RANGE_IN_STUDENT_TAB;
+  const studentHour4Range = constants.STUDENT_HOUR4_RANGE_IN_STUDENT_TAB;
 
-  for (var row = startRow; row <= lastRow; row++) {
-    var formula = `=TRANSPOSE(IFERROR(ARRAYFORMULA(FILTER(FLATTEN({` +
+  for (let row = startRow; row <= lastRow; row++) {
+    const formula = `=TRANSPOSE(IFERROR(ARRAYFORMULA(FILTER(FLATTEN({` +
       `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour1Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
       `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour2Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +
       `IFERROR(FILTER(Student!${studentNameRange}; Student!${studentHour3Range}=A1 & "_" & A${row} & "_" & B${row}); "");` +

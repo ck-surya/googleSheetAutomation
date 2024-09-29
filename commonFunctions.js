@@ -1,16 +1,16 @@
 function getAllTeacherIdsAndEmailsMap() {
   const teacherInfo = getAllTeacherIdsAndEmails();
-  return mappedIdAndEmail(teacherInfo)
+  return mappedIdAndEmail(teacherInfo);
 }
 
 function mappedIdAndEmail(data) {
-  const object = {}
-  data.map((el) => {
+  const object = {};
+  data.forEach(el => {
     if (el.length) {
       object[el[constants.TEACHER_ID_INDEX_IN_EMAIL_AND_ID_DATA]] = el[constants.TEACHER_EMAIL_INDEX_IN_EMAIL_AND_ID_DATA];
     }
-  })
-  return object
+  });
+  return object;
 }
 
 function getAllTeacherIdsAndEmails() {
@@ -62,3 +62,22 @@ function initializeCourseMap(courses) {
   return courseMapWithCell;
 }
 
+function processDataEntries(data, editedSlot, editedCourse, tab, isWithdrawn = false) {
+  let entryFound = false;
+
+  for (let index = 1; index < data.length; index++) {
+    const rowData = data[index];
+    const slot = rowData[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
+    const course = rowData[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
+
+    if (slot === editedSlot && course === editedCourse) {
+      entryFound = true;
+      updateValuesInTab(tab, index, course, isWithdrawn);
+      break;
+    }
+  }
+
+  if (!entryFound) {
+    Logger.log(`No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`);
+  }
+}

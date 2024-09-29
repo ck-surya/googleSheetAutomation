@@ -1,20 +1,19 @@
 function processTeacherEdit(column) {
   if (column === constants.COLUMN_COURSE_IN_TEACHER_TAB) {
-    updateStudentDropDownValues(); 
+    updateStudentDropDownValues();
   }
 }
 
 function fetchAvailableSlotsForCourses() {
-	const courseSlots = getMapForCourseSlot();
-  	var courses = courseSlots.map(course => course[0]);
-  	var courseMapWithAvailableSlot = initializeCourseMap(courses);
+  const courseSlots = getMapForCourseSlot();
+  const courses = courseSlots.map(course => course[0]);
+  const courseMapWithAvailableSlot = initializeCourseMap(courses);
 
-	var allTeachers = getAllTeacherIds();
-  	allTeachers.forEach(teacherId => {
-    	const teacherTab = getTab(teacherId);
-    	const teacherData = teacherTab.getDataRange().getValues();
-    	//Logger.log(data)
-    	processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots);
+  const allTeachers = getAllTeacherIds();
+  allTeachers.forEach(teacherId => {
+    const teacherTab = getTab(teacherId);
+    const teacherData = teacherTab.getDataRange().getValues();
+    processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots);
   });
   return courseMapWithAvailableSlot;
 }
@@ -25,12 +24,11 @@ function getAllTeacherIds() {
 
 function processTabData(teacherId, teacherData, courseMapWithAvailableSlot, courseSlots) {
   teacherData.forEach((row, index) => {
-    if (index < 2) return; // Skip header  
-  
-    const slot = row[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
-    const course = row[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY]; 
+    if (index < 2) return;
+
+    const slot = row[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
+    const course = row[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
     const studentsCount = countNonEmptyStudents(row.slice(2));
-    //Logger.log(teacherTab + "_" + slot + "_" + course, studentsCount)
 
     updateIndVAvailability(teacherId, slot, course, studentsCount, courseMapWithAvailableSlot);
     updateOtherVAvailability(teacherId, slot, course, studentsCount, courseMapWithAvailableSlot, courseSlots);
@@ -55,12 +53,10 @@ function updateOtherVAvailability(teacherId, slot, course, studentsCount, course
   courseSlots.forEach(mappedRow => {
     if (mappedRow[0] === course.trim() && mappedRow[1] > studentsCount) {
       courseMapWithAvailableSlot.otherV[course].push(teacherId + "_" + slot + "_" + course);
-    } else {
-
     }
   });
 }
 
 function countNonEmptyStudents(studentArray) {
-  return studentArray.filter(student => student.length).length;  
+  return studentArray.filter(student => student.length).length;
 }

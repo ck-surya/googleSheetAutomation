@@ -1,12 +1,12 @@
 function onOpen() {
-  var ui = SpreadsheetApp.getUi();
+  const ui = SpreadsheetApp.getUi();
   ui.createMenu("Custom Filter")
     .addItem("Generate Teacher Tab", "generateTeacherTab")
     .addItem("Update Dropdown option", "updateStudentDropDownValues")
     .addToUi();
 }
+let isScriptRunning = false; 
 
-var constants = getConstants();
 
 function handleEdit(e) {
   Logger.log("Trigger the Edit Event");
@@ -14,18 +14,15 @@ function handleEdit(e) {
   const range = e.range;
   const editedTab = range.getSheet();
   const editedValue = range.getValue();
-
-  const teacherEmailAndId = getAllTeacherIdsAndEmails();
   const column = range.getColumn();
   const row = range.getRow();
+  const teacherEmailAndId = getAllTeacherIdsAndEmails();
 
   if (isTeacherTab(editedTab, teacherEmailAndId)) {
-    Logger.log("updating values for the teacher tab")
+    Logger.log("updating values for the teacher tab");
     processTeacherEdit(column);
-  }
-
-  if (isStudentTab(editedTab)) {
-    Logger.log("updating values for the student tab")
+  } else if (isStudentTab(editedTab)) {
+    Logger.log("updating values for the student tab");
     handleStudentTabEdits(e, column, row, editedValue);
   }
 }

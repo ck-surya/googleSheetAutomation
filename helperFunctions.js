@@ -1,9 +1,21 @@
+function isWithinHourColumns(column) {
+  return column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER;
+}
+
+function getStudentName(row) {
+  return getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row);
+}
+
+function isWithdrawalStatus(column, editedValue) {
+  return column === constants.COLUMN_STATUS_IN_SUDENT_TAB && editedValue.trim() === constants.STUDENT_STATUS_WITHDRAWN.trim();
+}
+
 function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown) {
-  var tab = getTab(sheetName);
-  var lastRow = tab.getLastRow();
+  const tab = getTab(sheetName);
+  const lastRow = tab.getLastRow();
   var rangeForDropdown = tab.getRange(rangeForDropdown);
 
-  var rule = SpreadsheetApp.newDataValidation()
+  const rule = SpreadsheetApp.newDataValidation()
     .requireValueInList(dropdownOptions)
     .setAllowInvalid(false)
     .build();
@@ -18,7 +30,6 @@ function isCellTrue(sheetName, row, column) {
 function getCellValue(tabName, cell) {
   const tab = getTab(tabName);
   const cellReference = cell;
-  Logger.log(cell)
   const cellValue = tab.getRange(cellReference).getValue();
   return cellValue;
 }
@@ -28,13 +39,13 @@ function isValueEmpty(value) {
 }
 
 function hideFirstfRow(tabName) {
-  const tab = getTab(tabName)
+  const tab = getTab(tabName);
   tab.hideRows(1, 1);
 }
 
 function addDataToTab(data, sheetName) {
-  var tab = getTab(sheetName);
-  var rangeToAddData = tab.getRange(tab.getLastRow() + 1, 1, data.length, data[0].length);
+  const tab = getTab(sheetName);
+  const rangeToAddData = tab.getRange(tab.getLastRow() + 1, 1, data.length, data[0].length);
   rangeToAddData.setValues(data);
 }
 
@@ -47,13 +58,13 @@ function formatOptions(options) {
 }
 
 function getTab(name) {
-  var ss = getActiveSs();
-  return ss.getSheetByName(name); //The name of the sheet tab where you are sending the info
+  const ss = getActiveSs();
+  return ss.getSheetByName(name);
 }
 
 function insertNewTab(name) {
   SpreadsheetApp.flush();
-  ss = getActiveSs().insertSheet();
+  const ss = getActiveSs().insertSheet();
   SpreadsheetApp.flush();
   ss.setName(name);
 }
@@ -63,11 +74,12 @@ function fetchValuesInRange(tab_name, range) {
 }
 
 function fetchCellValues(tab_name, range, make_2d = false) {
-  var values = fetchValuesInRange(tab_name, range);
-  var result = [];
-  for (var row in values) {
-    var inner = [];
-    for (var col in values[row]) {
+  const values = fetchValuesInRange(tab_name, range);
+  const result = [];
+
+  for (let row in values) {
+    const inner = [];
+    for (let col in values[row]) {
       if (values[row][col]) {
         if (make_2d) {
           inner.push(values[row][col]);
@@ -96,4 +108,3 @@ function getColumnFromIndex(index) {
   }
   return column;
 }
-

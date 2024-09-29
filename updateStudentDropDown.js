@@ -1,14 +1,40 @@
 function updateStudentDropDownValues() {
-  var emptyCellMap = fetchCourseWiseEmptyCellsForStudents();
-  var availableSlotsMap = fetchAvailableSlotsForCourses();
-  addDropdownValues(availableSlotsMap, emptyCellMap);
+  if (isScriptRunning) {
+    SpreadsheetApp.getUi().alert(
+      "Script is already running. Please wait until it finishes."
+    );
+    return;
+  }
+
+  isScriptRunning = true;
+  SpreadsheetApp.getActiveSpreadsheet().toast(
+    "Updating dropdown options...",
+    "Loading..."
+  );
+  try {
+    const emptyCellMap = fetchCourseWiseEmptyCellsForStudents();
+    const availableSlotsMap = fetchAvailableSlotsForCourses();
+    addDropdownValues(availableSlotsMap, emptyCellMap);
+  } catch (error) {
+    SpreadsheetApp.getUi().alert(
+      "Error updating dropdown options: " + error.message
+    );
+  } finally {
+    isScriptRunning = false;
+    SpreadsheetApp.getActiveSpreadsheet().toast(
+      "Dropdown options updated!",
+      "Success"
+    );
+  }
 }
+
+
 
 function addDropdownValues(availableSlotsMap, emptyCellMap) {
   const keys = Object.keys(availableSlotsMap);
   keys.forEach(key => {
     const slots = availableSlotsMap[key];
-    const cells = emptyCellMap[key]
+    const cells = emptyCellMap[key];
     processCourses(slots, cells);
   });
 }
@@ -33,7 +59,7 @@ function handleValidation(cellsArray, slotsArray) {
 
 function addValidationToEmptyCells(array, tabName, options) {
   const emptyCellReferences = array;
-  const tab = getTab(tabName)
+  const tab = getTab(tabName);
   const rangeString = emptyCellReferences.join(',');
 
   const rule = SpreadsheetApp.newDataValidation()
@@ -47,4 +73,3 @@ function addValidationToEmptyCells(array, tabName, options) {
 
   Logger.log("Validation added to: " + rangeString);
 }
-

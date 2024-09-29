@@ -1,10 +1,10 @@
 function handleStudentTabEdits(e, column, row, editedValue) {
-  if (column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER) {
-    notifyStudentSlotBookingToClient(getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row), editedValue)
+  if (isWithinHourColumns(column)) {
+    notifyStudentSlotBookingToClient(getStudentName(row), editedValue);
     handleIndV(row, editedValue);
-  } else if (column === COLUMN_STATUS_IN_SUDENT_TAB && editedValue === constants.STUDENT_STATUS_WITHDRAWN) {
-    Logger.log("updating values for the withdrawn tab")
-    markAsWithdrawn();
+  } else if (isWithdrawalStatus(column, editedValue)) {
+    Logger.log("Updating values for the withdrawn tab");
+    markAsWithdrawn(row, column);
   }
   updateStudentDropDownValues();
 }
@@ -18,6 +18,7 @@ function handleIndV(row, editedValue) {
       if (!tab) {
         throw new Error(`Tab "${tabName}" not found.`);
       }
+
       const data = tab.getDataRange().getValues();
       processDataEntries(data, editedSlot, editedCourse, tab);
     } else {
@@ -28,46 +29,28 @@ function handleIndV(row, editedValue) {
   }
 }
 
-function processDataEntries(data, editedSlot, editedCourse, tab) {
-  let entryFound = false;
-  data.forEach((rowData, index) => {
-    if (index === 0) return; // Skip header row  
-
-    const slot = rowData[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
-    const course = rowData[constants.TEACHER_COURSE_INDEX_IN_TEACHER_ARRAY_DATA_ARRAY];
-
-    if (slot === editedSlot && course === editedCourse) {
-      entryFound = true;
-      updateValuesInTab(tab, index, course);
-    }
-  });
-
-  if (!entryFound) {
-    Logger.log(`No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`);
-  }
-}
-
-function updateValuesInTab(tab, index, course) {
+function updateValuesInTab(tab, index, course, isWithdrawn) {
   const courseMappedWithTotalSeat = getMapForCourseSlot();
 
   if (!courseMappedWithTotalSeat) {
     throw new Error("Course mapping data not found.");
   }
 
-  courseMappedWithTotalSeat.forEach((courseRow) => {
-    if (courseRow[0] === course) {
-      const repeatValue = courseRow[1] - 1;
-      const range = tab.getRange(constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB + (index + 1) + ":" + getColumnFromIndex(3 + repeatValue) + (index + 1));
-      const valueToSet = repeatValue > 0 ? Array(repeatValue).fill("___") : [];
-      range.setValues([valueToSet]);
-      updateStudentDropDownValues();
-    }
-  });
+  const courseRow = courseMappedWithTotalSeat.find(row => row[0] === course);
+
+  if (courseRow) {
+    const repeatValue = courseRow[1] - 1;
+    const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + repeatValue)}${index + 1}`);
+
+    const valueToSet = isWithdrawn ? Array(repeatValue).fill("") : (repeatValue > 0 ? Array(repeatValue).fill("___") : []);
+    range.setValues([valueToSet]);
+    updateStudentDropDownValues();
+  }
 }
 
 function fetchCourseWiseEmptyCellsForStudents() {
   const courseSlots = getMapForCourseSlot();
-  var courses = courseSlots.map(course => course[0]);
+  const courses = courseSlots.map(course => course[0]);
 
   const tab = getTab(constants.STUDENT_TAB_NAME);
   const lastRow = tab.getLastRow();
@@ -77,7 +60,6 @@ function fetchCourseWiseEmptyCellsForStudents() {
   const courseMapWithCell = initializeCourseMap(courses);
 
   populateCourseMap(values, courseMapWithCell);
-  Logger.log(courseMapWithCell)
   return courseMapWithCell;
 }
 
@@ -87,8 +69,7 @@ function populateCourseMap(values, courseMapWithCell) {
 
     hoursValues.forEach((cellValue, colIndex) => {
       const cellReference = fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex);
-      if (cellReference === false)
-        return;
+      if (cellReference === false) return;
       if (row[constants.INDIVIDUAL_COL_NUMBER] === true) {
         courseMapWithCell.indV[row[2]].push(cellReference);
       } else {
@@ -99,12 +80,14 @@ function populateCourseMap(values, courseMapWithCell) {
 }
 
 function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
-  const rowNumber = rowIndex + 4; 
+  const rowNumber = rowIndex + 4;
   if (cellValue === "") {
-    const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber; 
-    var course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber) 
+    const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber;
+    const course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber);
     if (course.length > 0) {
       return cellReference;
-    } return false
-  } return false
+    }
+    return false;
+  }
+  return false;
 }

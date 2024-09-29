@@ -14,8 +14,8 @@ function generateTeacherTab() {
 }
 
 function getAllTeachers() {
-  var masterSheetName = constants.TEACHER_MASTER_TAB_NAME;
-  var lastRow = getTab(masterSheetName).getLastRow();
+  const masterSheetName = constants.TEACHER_MASTER_TAB_NAME;
+  const lastRow = getTab(masterSheetName).getLastRow();
   return fetchValuesInRange(masterSheetName, constants.TEACHER_DATA_RANGE_IN_MASTER_TAB + lastRow);
 }
 
@@ -34,7 +34,7 @@ function createTeacherTab(teacherName, teacherEmail, courses, slots, template) {
   addDataToTab(template, teacherName);
   addDataToTab(formattedSlots, teacherName);
 
-  lastRow = getTab(teacherName).getLastRow();
+  const lastRow = getTab(teacherName).getLastRow();
   addDataValidationDropdown(courseOptions, teacherName, constants.COURSE_RANGE_IN_TEACHER_TAB + lastRow);
   updateTeacherFormula(teacherName);
 }
@@ -47,4 +47,3 @@ function formatSlots(slotsString) {
 function formatCourseOptions(optionsString) {
   return optionsString.split(",").map(option => option.trim());
 }
-

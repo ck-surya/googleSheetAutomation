@@ -1,16 +1,14 @@
 function notifyStudentSlotBookingToClient(studentName, studentSlot) {
-  Logger.log("Added slot...");
   const emailAndIdObject = getAllTeacherIdsAndEmailsMap();
   if (studentSlot.length) {
     const teacherId = studentSlot.split("_")[0];
-    const teacherEmail = emailAndIdObject[teacherId.trim()]
-    return handleSendingNotificationForSlotBooking(teacherEmail, studentName, studentSlot)
+    const teacherEmail = emailAndIdObject[teacherId.trim()];
+    return handleSendingNotificationForSlotBooking(teacherEmail, studentName, studentSlot);
   }
 }
 
 function handleSendingNotificationForSlotBooking(teacherEmail, studentName, slotName) {
-  Logger.log(slotName.split("_")[0].split("-")[1].trim())
-  const teacherName = slotName.split("_")[0].split("-")[1].trim()
+  const teacherName = slotName.split("_")[0].split("-")[1].trim();
   const emailTemplate = `  
 
 Hi ${teacherName},  

@@ -1,18 +1,23 @@
 function notifyWithdrawnStudentToClient(studentName, studentSlots) {
-  Logger.log(studentSlots)
-  const emailAndIdObject = getMappedTeacherIdAndEmail()
-  studentSlots.map((studentSlot) => {
+  const emailAndIdObject = getAllTeacherIdsAndEmailsMap();
+  studentSlots.forEach(studentSlot => {
     if (studentSlot.length) {
-      const teacherId = studentSlot.split("_")[0];
-      const teacherEmail = emailAndIdObject[teacherId.trim()]
-      return handleSendingNotification(teacherEmail, studentName, studentSlot)
+      const [tabName, slotName, courseName] = studentSlot.split("_");
+      handleUpdateStudentSlotsInTeacherTab(tabName, slotName, courseName);
+      const teacherEmail = emailAndIdObject[tabName.trim()];
+      handleSendingNotification(teacherEmail, studentName, studentSlot);
     }
-  })
+  });
+}
+
+function handleUpdateStudentSlotsInTeacherTab(tabName, slotName, courseName) {
+  const tab = getTab(tabName);
+  const data = tab.getDataRange().getValues();
+  processDataEntries(data, slotName, courseName, tab, true);
 }
 
 function handleSendingNotification(teacherEmail, studentName, slotName) {
-  Logger.log(slotName.split("_")[0].split("-")[1].trim())
-  const teacherName = slotName.split("_")[0].split("-")[1].trim()
+  const teacherName = slotName.split("_")[0].split("-")[1].trim();
   const emailTemplate = `  
 
 Hi ${teacherName},  
@@ -23,5 +28,5 @@ Thanks and regards,
 Upwork  
   `;
   const emailSubject = "Notification of Student Withdrawal from Your Slot";
-  return sendEmail(teacherEmail, "cksurya7319@gmail.com", emailSubject, emailTemplate)
+  return sendEmail(teacherEmail, constants.EMAIL_ADDRESS_FROM, emailSubject, emailTemplate);
 }
