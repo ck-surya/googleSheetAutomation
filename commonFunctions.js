@@ -1,3 +1,15 @@
+function isWithinHourColumns(column) {
+  return column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER;
+}
+
+function getStudentName(row) {
+  return getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row);
+}
+
+function isWithdrawalStatus(column, editedValue) {
+  return column === constants.COLUMN_STATUS_IN_SUDENT_TAB && editedValue.trim() === constants.STUDENT_STATUS_WITHDRAWN.trim();
+}
+
 function getAllTeacherIdsAndEmailsMap() {
   const teacherInfo = getAllTeacherIdsAndEmails();
   return mappedIdAndEmail(teacherInfo);

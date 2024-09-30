@@ -1,13 +1,12 @@
-function isWithinHourColumns(column) {
-  return column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER;
-}
-
-function getStudentName(row) {
-  return getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_NAME_COL + row);
-}
-
-function isWithdrawalStatus(column, editedValue) {
-  return column === constants.COLUMN_STATUS_IN_SUDENT_TAB && editedValue.trim() === constants.STUDENT_STATUS_WITHDRAWN.trim();
+function protectRange(tab_name, range_string) {
+  Logger.log(tab_name);
+  ss = getTab(tab_name);  
+  var range = ss.getRange(range_string);
+  var protection = range.protect().setDescription('protected range');
+  var me = Session.getEffectiveUser();
+  protection.addEditor(me);
+  protection.removeEditors(protection.getEditors());    
+  protection.setWarningOnly(true);
 }
 
 function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown) {

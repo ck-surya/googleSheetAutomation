@@ -28,8 +28,6 @@ function updateStudentDropDownValues() {
   }
 }
 
-
-
 function addDropdownValues(availableSlotsMap, emptyCellMap) {
   const keys = Object.keys(availableSlotsMap);
   keys.forEach(key => {
