@@ -9,8 +9,8 @@ function protectRange(tab_name, range_string) {
   protection.setWarningOnly(true);
 }
 
-function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown) {
-  const tab = getTab(sheetName);
+function addDataValidationDropdown(dropdownOptions, tabName, rangeForDropdown) {
+  const tab = getTab(tabName);
   const lastRow = tab.getLastRow();
   var rangeForDropdown = tab.getRange(rangeForDropdown);
 
@@ -22,8 +22,8 @@ function addDataValidationDropdown(dropdownOptions, sheetName, rangeForDropdown)
   rangeForDropdown.setDataValidation(rule);
 }
 
-function isCellTrue(sheetName, row, column) {
-  return getCellValue(sheetName, column + row) === true;
+function isCellTrue(tabName, row, column) {
+  return getCellValue(tabName, column + row) === true;
 }
 
 function getCellValue(tabName, cell) {
@@ -37,13 +37,24 @@ function isValueEmpty(value) {
   return value.length === 0;
 }
 
-function hideFirstfRow(tabName) {
+function hideRow(tabName,rowNumber) {
   const tab = getTab(tabName);
-  tab.hideRows(1, 1);
+  if (!tab) {  
+    Logger.log('Sheet not found: ' + tabName);  
+    return;  
+  }  
+  
+  if (rowNumber < 1) {  
+    Logger.log('Invalid row number: ' + rowNumber);  
+    return;  
+  }  
+
+  tab.hideRows(rowNumber);  
+  Logger.log('Row ' + rowNumber + ' hidden in sheet: ' + tabName);  
 }
 
-function addDataToTab(data, sheetName) {
-  const tab = getTab(sheetName);
+function addDataToTab(data, tabName) {
+  const tab = getTab(tabName);
   const rangeToAddData = tab.getRange(tab.getLastRow() + 1, 1, data.length, data[0].length);
   rangeToAddData.setValues(data);
 }

@@ -30,7 +30,7 @@ function getTeacherTabTemplate() {
 function createTeacherTab(teacherName, teacherEmail, courses, slots, template) {
   insertNewTab(teacherName);
   addDataToTab([[teacherName, teacherEmail]], teacherName);
-  hideFirstfRow(teacherName);
+  hideRow(teacherName,1);
 
   const formattedSlots = formatSlots(slots);
   const courseOptions = formatCourseOptions(courses);

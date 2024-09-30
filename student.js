@@ -4,9 +4,23 @@ function handleStudentTabEdits(e, column, row, editedValue) {
     handleIndV(row, editedValue);
   } else if (isWithdrawalStatus(column, editedValue)) {
     Logger.log("Updating values for the withdrawn tab");
-    markAsWithdrawn(row, column);
+    handleWithdrawalStudent(row);
   }
   updateStudentDropDownValues();
+}
+
+function handleWithdrawalStudent(row) {
+  const studentTabName = constants.STUDENT_TAB_NAME
+  const tab = getTab(studentTabName)
+  const range = tab.getRange(constants.HOURS_FIRST_COL_NAME_IN_STUDENT_TAB+row+":"+constants.HOURS_LAST_COL_NAME_IN_STUDENT_TAB+row);
+  data = range.getValues()
+  const studentName = tab.getRange(constants.STUDENT_NAME_COL + row).getValue();
+  notifyWithdrawnStudentToClient(studentName, data)
+  totalHours = constants.TOTAL_HOURS
+  const valueToSet = Array(totalHours).fill("");
+  range.setValues([valueToSet]);
+  console.log(range.getValues());
+  hideRow(studentTabName,row);
 }
 
 function handleIndV(row, editedValue) {
