@@ -22,7 +22,7 @@ function handleEdit(e) {
     const editedValue = range.getValue();
     const column = range.getColumn();
     const row = range.getRow();    
-    handleStudentTabEdits(e, column, row, editedValue);
+    handleStudentTabEdits(column,row, editedValue);
   }
 }
 

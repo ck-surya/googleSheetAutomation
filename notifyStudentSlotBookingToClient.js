@@ -1,4 +1,5 @@
 function notifyStudentSlotBookingToClient(studentName, studentSlot) {
+  console.log("Studentlot: " + studentSlot);
   const emailAndIdObject = getAllTeacherIdsAndEmailsMap();
   if (studentSlot.length) {
     const teacherId = studentSlot.split("_")[0];

@@ -1,4 +1,4 @@
-function handleStudentTabEdits(e, column, row, editedValue) {
+function handleStudentTabEdits(column, row, editedValue) {
   if (isWithinHourColumns(column)) {
     notifyStudentSlotBookingToClient(getStudentName(row), editedValue);
     handleIndV(row, editedValue);
