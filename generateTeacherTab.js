@@ -9,7 +9,7 @@ function generateTeacherTab() {
       const courses = teacher[constants.TEACHER_COURSES_INDEX_IN_TEACHER_ARRAY];
       const slots = teacher[constants.TEACHER_SLOTS_INDEX_IN_TEACHER_ARRAY];
       createTeacherTab(teacherId, teacherEmail, courses, slots, teacherTabTemplate);
-      createCopyOfViewTemplate(constants.VIEW_TEMPLATE_TAB_NAME,teacherId,teacherId);
+      createCopyOfViewTemplate(constants.VIEW_TEMPLATE_TAB_NAME,teacherId+"_SCHEDULE_VIEW",teacherId);
       protectRange(teacherId, "A1:K2");
       protectRange(teacherId, "A3:A");
       protectRange(teacherId, "C3:K");

@@ -13,6 +13,7 @@ function handleEdit(e) {
   const range = e.range;
   const editedTab = range.getSheet();
   const teacherEmailAndId = getAllTeacherIdsAndEmails();
+  const column = range.getColumn();
 
   if (isTeacherTab(editedTab, teacherEmailAndId)) {
     Logger.log("updating values for the teacher tab");
@@ -20,7 +21,6 @@ function handleEdit(e) {
   } else if (isStudentTab(editedTab)) {
     Logger.log("updating values for the student tab");
     const editedValue = range.getValue();
-    const column = range.getColumn();
     const row = range.getRow();    
     handleStudentTabEdits(column,row, editedValue);
   }
