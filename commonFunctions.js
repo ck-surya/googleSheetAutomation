@@ -1,4 +1,4 @@
-function isWithinHourColumns(column) {
+function isHourColumns(column) {
   return column >= constants.HOUR_START_COL_NUMBER && column <= constants.HOUR_END_COL_NUMBER;
 }
 
@@ -91,5 +91,24 @@ function processDataEntries(data, editedSlot, editedCourse, tab, isWithdrawn = f
 
   if (!entryFound) {
     Logger.log(`No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`);
+  }
+}
+
+function updateValuesInTab(tab, index, course, isWithdrawn) {
+  const courseMappedWithTotalSeat = getMapForCourseSlot();
+
+  if (!courseMappedWithTotalSeat) {
+    throw new Error("Course mapping data not found.");
+  }
+
+  const courseRow = courseMappedWithTotalSeat.find(row => row[0] === course);
+
+  if (courseRow) {
+    const repeatValue = courseRow[1] - 1;
+    const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + repeatValue)}${index + 1}`);
+
+    const valueToSet = isWithdrawn ? Array(repeatValue).fill("") : (repeatValue > 0 ? Array(repeatValue).fill("___") : []);
+    range.setValues([valueToSet]);
+    updateStudentDropDownValues();
   }
 }

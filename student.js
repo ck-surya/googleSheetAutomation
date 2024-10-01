@@ -1,26 +1,35 @@
 function handleStudentTabEdits(column, row, editedValue) {
-  if (isWithinHourColumns(column)) {
-    notifyStudentSlotBookingToClient(getStudentName(row), editedValue);
-    handleIndV(row, editedValue);
+  let updateDropDown = false;
+  if (isHourColumns(column)) {
+    Logger.log("Updating values for the Slot Booking");
+    handleSlotBooking(row, editedValue);    
+    updateDropDown = true;    
   } else if (isWithdrawalStatus(column, editedValue)) {
-    Logger.log("Updating values for the withdrawn tab");
+    Logger.log("Updating values for the withdrawn status");
     handleWithdrawalStudent(row);
+    updateDropDown = true;    
+  }   
+  if (updateDropDown) {
+    updateStudentDropDownValues();  
   }
-  updateStudentDropDownValues();
+}
+
+function handleSlotBooking(row, editedValue) {    
+    handleIndV(row, editedValue);    
+    notifyStudentSlotBookingToClient(getStudentName(row), editedValue);
 }
 
 function handleWithdrawalStudent(row) {
-  const studentTabName = constants.STUDENT_TAB_NAME
-  const tab = getTab(studentTabName)
-  const range = tab.getRange(constants.HOURS_FIRST_COL_NAME_IN_STUDENT_TAB+row+":"+constants.HOURS_LAST_COL_NAME_IN_STUDENT_TAB+row);
-  data = range.getValues()
-  const studentName = tab.getRange(constants.STUDENT_NAME_COL + row).getValue();
-  notifyWithdrawnStudentToClient(studentName, data[0])
-  totalHours = constants.TOTAL_HOURS
+  const studentTabName = constants.STUDENT_TAB_NAME;
+  const stdentTab = getTab(studentTabName);
+  const range = stdentTab.getRange(constants.COLUMN_HOUR_FIRST_IN_STUDENT_TAB + row + ":" + constants.COLUMN_HOUR_LAST_IN_STUDENT_TAB + row);
+  let values = range.getValues();
+  const studentName = tab.getRange(constants.STUDENT_NAME_COL + row).getValue();  
+  let totalHours = constants.TOTAL_HOURS;
   const valueToSet = Array(totalHours).fill("");
   range.setValues([valueToSet]);
-  console.log(range.getValues());
   hideRow(studentTabName,row);
+  notifyWithdrawnStudentToClient(studentName, values[0]);
 }
 
 function handleIndV(row, editedValue) {
@@ -43,32 +52,13 @@ function handleIndV(row, editedValue) {
   }
 }
 
-function updateValuesInTab(tab, index, course, isWithdrawn) {
-  const courseMappedWithTotalSeat = getMapForCourseSlot();
-
-  if (!courseMappedWithTotalSeat) {
-    throw new Error("Course mapping data not found.");
-  }
-
-  const courseRow = courseMappedWithTotalSeat.find(row => row[0] === course);
-
-  if (courseRow) {
-    const repeatValue = courseRow[1] - 1;
-    const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + repeatValue)}${index + 1}`);
-
-    const valueToSet = isWithdrawn ? Array(repeatValue).fill("") : (repeatValue > 0 ? Array(repeatValue).fill("___") : []);
-    range.setValues([valueToSet]);
-    updateStudentDropDownValues();
-  }
-}
-
 function fetchCourseWiseEmptyCellsForStudents() {
   const courseSlots = getMapForCourseSlot();
   const courses = courseSlots.map(course => course[0]);
 
-  const tab = getTab(constants.STUDENT_TAB_NAME);
-  const lastRow = tab.getLastRow();
-  const dataRange = tab.getRange(constants.STUDENT_NAME_TO_HOURS_END_COL_RANGE + lastRow);
+  const studentTab = getTab(constants.STUDENT_TAB_NAME);
+  const lastRow = studentTab.getLastRow();
+  const dataRange = studentTab.getRange(constants.STUDENT_NAME_TO_HOURS_END_COL_RANGE + lastRow);
 
   const values = dataRange.getValues();
   const courseMapWithCell = initializeCourseMap(courses);
@@ -77,10 +67,9 @@ function fetchCourseWiseEmptyCellsForStudents() {
   return courseMapWithCell;
 }
 
-function populateCourseMap(values, courseMapWithCell) {
+function populateCourseMap(values, courseMapWithCell) {  
   values.forEach((row, rowIndex) => {
-    const hoursValues = row.slice(constants.SLICE_TEACHER_DATA_FOR_THE_STUDENT_COUNT);
-
+    const hoursValues = row.slice(constants.COLUMN_INDEX_FOR_STUDENT_HOURS);    
     hoursValues.forEach((cellValue, colIndex) => {
       const cellReference = fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex);
       if (cellReference === false) return;
@@ -96,7 +85,7 @@ function populateCourseMap(values, courseMapWithCell) {
 function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
   const rowNumber = rowIndex + 4;
   if (cellValue === "") {
-    const cellReference = String.fromCharCode(constants.HOURS_STARTING_COL_INTGER_IN_STUDENT_TAB + colIndex) + rowNumber;
+    const cellReference = String.fromCharCode(constants.COLUMN_NUMBER_HOURS_STARTING_IN_STUDENT_TAB + colIndex) + rowNumber;
     const course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber);
     if (course.length > 0) {
       return cellReference;
