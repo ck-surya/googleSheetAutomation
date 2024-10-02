@@ -24,7 +24,7 @@ function handleWithdrawalStudent(row) {
   const stdentTab = getTab(studentTabName);
   const range = stdentTab.getRange(constants.COLUMN_HOUR_FIRST_IN_STUDENT_TAB + row + ":" + constants.COLUMN_HOUR_LAST_IN_STUDENT_TAB + row);
   let values = range.getValues();
-  const studentName = tab.getRange(constants.STUDENT_NAME_COL + row).getValue();  
+  const studentName = stdentTab.getRange(constants.STUDENT_NAME_COL + row).getValue();  
   let totalHours = constants.TOTAL_HOURS;
   const valueToSet = Array(totalHours).fill("");
   range.setValues([valueToSet]);
@@ -36,14 +36,14 @@ function handleIndV(row, editedValue) {
   try {
     if (isCellTrue(constants.STUDENT_TAB_NAME, row, constants.COLUMN_NAME_INDIVIDUAL_IN_STUDENT_TAB)) {
       const [tabName, editedSlot, editedCourse] = editedValue.split("_");
-      const tab = getTab(tabName);
+      const teacherTab = getTab(tabName);
 
-      if (!tab) {
+      if (!teacherTab) {
         throw new Error(`Tab "${tabName}" not found.`);
       }
 
-      const data = tab.getDataRange().getValues();
-      processDataEntries(data, editedSlot, editedCourse, tab);
+      const data = teacherTab.getDataRange().getValues();
+      processDataEntries(data, editedSlot, editedCourse, teacherTab);
     } else {
       Logger.log(`Cell L${row} is not true, no update made.`);
     }

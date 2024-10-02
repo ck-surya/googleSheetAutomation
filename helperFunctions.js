@@ -118,3 +118,8 @@ function getColumnFromIndex(index) {
   }
   return column;
 }
+
+function createValueSet(repeatValue, isWithdrawn) {  
+  return isWithdrawn ? Array(repeatValue).fill("") :   
+         (repeatValue > 0 ? Array(repeatValue).fill("___") : []);  
+} 
