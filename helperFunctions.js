@@ -119,7 +119,11 @@ function getColumnFromIndex(index) {
   return column;
 }
 
-function createValueSet(repeatValue, isWithdrawn) {  
-  return isWithdrawn ? Array(repeatValue).fill("") :   
-         (repeatValue > 0 ? Array(repeatValue).fill("___") : []);  
+function createValueSet(valueCount, value) {  
+  return Array(valueCount).fill(value);
 } 
+
+function setValuesForRange(range, value, valueCount) {  
+  const valueToSet = createValueSet(valueCount, value);  
+  range.setValues([valueToSet]);   
+}

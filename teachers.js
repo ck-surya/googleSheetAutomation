@@ -1,9 +1,3 @@
-function processTeacherEdit(column) {
-  if (column === constants.COLUMN_COURSE_IN_TEACHER_TAB) { //TODO: We may not need this at all. And ask user to update it manually.
-    updateStudentDropDownValues();
-  }
-}
-
 function fetchAvailableSlotsForCourses() {
   const courseSlots = getMapForCourseSlot();
   const courses = courseSlots.map(course => course[0]);

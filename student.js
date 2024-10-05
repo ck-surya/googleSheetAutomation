@@ -1,96 +1,56 @@
-function handleStudentTabEdits(column, row, editedValue) {
-  let updateDropDown = false;
-  if (isHourColumns(column)) {
+function processStudentTabEdits(column, row, editedValue) {  
+  if (isHourColumn(column)) { 
     Logger.log("Updating values for the Slot Booking");
-    handleSlotBooking(row, editedValue);    
-    updateDropDown = true;    
-  } else if (isWithdrawalStatus(column, editedValue)) {
+    processSlotBooking(row, editedValue);        
+  } else if (isStatusColumn(column) && hasStudentWithdrawn(editedValue)) { 
     Logger.log("Updating values for the withdrawn status");
-    handleWithdrawalStudent(row);
-    updateDropDown = true;    
+    processStudentWithdrawal(row);
   }   
-  if (updateDropDown) {
-    updateStudentDropDownValues();  
-  }
 }
 
-function handleSlotBooking(row, editedValue) {    
-    handleIndV(row, editedValue);    
-    notifyStudentSlotBookingToClient(getStudentName(row), editedValue);
+function processSlotBooking(row, editedSlotName) { 
+  if (studentHasIndividualSlot(row)) {
+    updateTeacherTabWithIndividualSlot(row, editedSlotName);    
+  }  
+  updateStudentDropDownValues();
+  notifyTeacherOfSlotBooking(getStudentName(row), slotName);
 }
 
-function handleWithdrawalStudent(row) {
-  const studentTabName = constants.STUDENT_TAB_NAME;
-  const stdentTab = getTab(studentTabName);
-  const range = stdentTab.getRange(constants.COLUMN_HOUR_FIRST_IN_STUDENT_TAB + row + ":" + constants.COLUMN_HOUR_LAST_IN_STUDENT_TAB + row);
-  let values = range.getValues();
-  const studentName = stdentTab.getRange(constants.STUDENT_NAME_COL + row).getValue();  
-  let totalHours = constants.TOTAL_HOURS;
-  const valueToSet = Array(totalHours).fill("");
-  range.setValues([valueToSet]);
-  hideRow(studentTabName,row);
-  notifyWithdrawnStudentToClient(studentName, values[0]);
+function studentHasIndividualSlot(row) {
+  return isCellTrue(constants.STUDENT_TAB_NAME, row, constants.COLUMN_NAME_INDIVIDUAL_IN_STUDENT_TAB);
 }
 
-function handleIndV(row, editedValue) {
-  try {
-    if (isCellTrue(constants.STUDENT_TAB_NAME, row, constants.COLUMN_NAME_INDIVIDUAL_IN_STUDENT_TAB)) {
-      const [tabName, editedSlot, editedCourse] = editedValue.split("_");
-      const teacherTab = getTab(tabName);
-
-      if (!teacherTab) {
-        throw new Error(`Tab "${tabName}" not found.`);
-      }
-
-      const data = teacherTab.getDataRange().getValues();
-      processDataEntries(data, editedSlot, editedCourse, teacherTab);
-    } else {
-      Logger.log(`Cell L${row} is not true, no update made.`);
-    }
+function updateTeacherTabWithIndividualSlot(row, slotName) {
+  try {    
+    const [teacherTabName, editedSlot, editedCourse] = slotName.split("_");    
+    updateTeacherTabWithValue(teacherTabName, editedSlot, editedCourse, "___");
   } catch (error) {
     console.error("Error in handleIndV:", error.message);
   }
 }
 
-function fetchCourseWiseEmptyCellsForStudents() {
-  const courseSlots = getMapForCourseSlot();
-  const courses = courseSlots.map(course => course[0]);
-
-  const studentTab = getTab(constants.STUDENT_TAB_NAME);
-  const lastRow = studentTab.getLastRow();
-  const dataRange = studentTab.getRange(constants.STUDENT_NAME_TO_HOURS_END_COL_RANGE + lastRow);
-
-  const values = dataRange.getValues();
-  const courseMapWithCell = initializeCourseMap(courses);
-
-  populateCourseMap(values, courseMapWithCell);
-  return courseMapWithCell;
+function processStudentWithdrawal(row) {
+  let deletedSlots = deleteStudentHours(row);
+  updateTeacherTabWithWithdrawnSlots(row, deletedSlots);
+  updateStudentDropDownValues();
+  notifyTeachersOfWithdrawnStudent(getStudentName(row), deletedSlots);  
 }
 
-function populateCourseMap(values, courseMapWithCell) {  
-  values.forEach((row, rowIndex) => {
-    const hoursValues = row.slice(constants.COLUMN_INDEX_FOR_STUDENT_HOURS);    
-    hoursValues.forEach((cellValue, colIndex) => {
-      const cellReference = fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex);
-      if (cellReference === false) return;
-      if (row[constants.INDIVIDUAL_COL_NUMBER] === true) {
-        courseMapWithCell.indV[row[2]].push(cellReference);
-      } else {
-        courseMapWithCell.otherV[row[2]].push(cellReference);
-      }
-    });
-  });
-}
-
-function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
-  const rowNumber = rowIndex + 4;
-  if (cellValue === "") {
-    const cellReference = String.fromCharCode(constants.COLUMN_NUMBER_HOURS_STARTING_IN_STUDENT_TAB + colIndex) + rowNumber;
-    const course = getCellValue(constants.STUDENT_TAB_NAME, constants.STUDENT_COURSE_COL_NAME + rowNumber);
-    if (course.length > 0) {
-      return cellReference;
+function updateTeacherTabWithWithdrawnSlots(row, withdrawnSlots) {
+  withdrawnSlots.forEach(studentSlot => {
+    if (studentSlot.length) {
+      const [teacherTabName, slotName, courseName] = studentSlot.split("_");
+      updateTeacherTabWithValue(teacherTabName, slotName, courseName, "");      
     }
-    return false;
-  }
-  return false;
+  });  
+}
+
+function deleteStudentHours(row) {
+  const studentTabName = constants.STUDENT_TAB_NAME;
+  const studentTab = getTab(studentTabName);
+  const range = studentTab.getRange(constants.COLUMN_HOUR_FIRST_IN_STUDENT_TAB + row + ":" + constants.COLUMN_HOUR_LAST_IN_STUDENT_TAB + row);
+  let values = range.getValues();  
+  let totalHours = constants.TOTAL_HOURS;
+  setValuesForRange(range, "", totalHours);  
+  return values[0];
 }

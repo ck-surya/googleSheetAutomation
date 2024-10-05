@@ -1,7 +1,13 @@
-function isHourColumns(column) {
+function isHourColumn(column) {
   return (
-    column >= constants.HOUR_START_COL_NUMBER &&
-    column <= constants.HOUR_END_COL_NUMBER
+    column >= constants.COLUMN_NUMBER_HOUR_START &&
+      column <= constants.COLUMN_NUMBER_HOUR_END
+  );
+}
+
+function isStatusColumn(column) {
+  return (
+    column === constants.COLUMN_STATUS_IN_SUDENT_TAB 
   );
 }
 
@@ -12,10 +18,9 @@ function getStudentName(row) {
   );
 }
 
-function isWithdrawalStatus(column, editedValue) {
-  return (
-    column === constants.COLUMN_STATUS_IN_SUDENT_TAB &&
-    editedValue.trim() === constants.STUDENT_STATUS_WITHDRAWN.trim()
+function hasStudentWithdrawn(editedValue) {
+  return (    
+      editedValue.trim() === constants.STUDENT_STATUS_WITHDRAWN.trim()
   );
 }
 
@@ -96,22 +101,25 @@ function initializeCourseMap(courses) {
   return courseMapWithCell;
 }
 
-function processDataEntries(
-  data,
-  editedSlot,
-  editedCourse,
-  tab,
-  isWithdrawn = false
+function updateTeacherTabWithValue(
+  teacherTabName, 
+  editedSlot, 
+  editedCourse, 
+  value = ""
 ) {
-  const entryIndex = findEntryIndex(data, editedSlot, editedCourse);
-
-  if (entryIndex !== -1) {
-    updateValuesInTab(tab, entryIndex, editedCourse, isWithdrawn);
-  } else {
-    logError(
-      `No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`
-    );
-  }
+  const teacherTab = getTab(teacherTabName);
+    if (!teacherTab) {
+      throw new Error(`Tab "${teacherTabName}" not found.`);
+    }
+    const teacherData = teacherTab.getDataRange().getValues();
+    const entryIndex = findEntryIndex(teacherData, editedSlot, editedCourse);
+    if (entryIndex !== -1) {
+      updateValuesInTab(tab, entryIndex, editedCourse, value);
+    } else {
+      logError(
+        `No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`
+      );
+    }
 }
 
 function findEntryIndex(data, editedSlot, editedCourse) {
@@ -129,20 +137,17 @@ function findEntryIndex(data, editedSlot, editedCourse) {
   return -1;
 }
 
-function updateValuesInTab(tab, index, course, isWithdrawn) {  
+function updateValuesInTab(tab, index, course, value) {  
   const courseMappedWithTotalSeat = getMapForCourseSlot();  
-
   if (!courseMappedWithTotalSeat) {  
       throw new Error("Course mapping data not found.");  
   }  
-
   const courseRow = courseMappedWithTotalSeat.find(row => row[0] === course);  
 
   if (courseRow) {  
-      const repeatValue = courseRow[1] - 1;  
+      const valueCount = courseRow[1] - 1;  
       const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + repeatValue)}${index + 1}`);  
-
-      const valueToSet = createValueSet(repeatValue, isWithdrawn);  
-      range.setValues([valueToSet]);   
+      setValuesForRange(range, value, valueCount);
   }  
 }  
+

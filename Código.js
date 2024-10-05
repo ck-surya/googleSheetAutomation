@@ -12,17 +12,12 @@ function handleEdit(e) {
   Logger.log("Trigger the Edit Event");
   const range = e.range;
   const editedTab = range.getSheet();
-  const teacherEmailAndId = getAllTeacherIdsAndEmails();
-  const column = range.getColumn();
-
-  if (isTeacherTab(editedTab, teacherEmailAndId)) {
-    Logger.log("updating values for the teacher tab");
-    processTeacherEdit(column);
-  } else if (isStudentTab(editedTab)) {
+  if (isStudentTab(editedTab)) {
     Logger.log("updating values for the student tab");
     const editedValue = range.getValue();
+    const column = range.getColumn();
     const row = range.getRow();    
-    handleStudentTabEdits(column,row, editedValue);
+    processStudentTabEdits(column, row, editedValue);
   }
 }
 
