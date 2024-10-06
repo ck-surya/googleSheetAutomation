@@ -16,7 +16,7 @@ function updateTeacherFormula(tabName) {
   for (let row = startRow; row <= lastRow; row++) {
     const studentFilterFormula = `IFERROR(FILTER(ARRAYFORMULA(  
       IF(  
-          Student!${statusRange} = "${trailStatus}" &;   
+          Student!${statusRange} = "${trailStatus}";   
           Student!$${studentNameRange} & "_" & TEXT(Student!$${studentTrialDateRange}; "${dateFormat}");   
           Student!${studentNameRange}  
       )  
