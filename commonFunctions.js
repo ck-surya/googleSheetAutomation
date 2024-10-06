@@ -59,19 +59,19 @@ function getAllTeacherIdsAndEmails() {
   }
 }
 
-function isTeacherTab(sheet, teacherEmailAndId) {
+function isTeacherTab(tab, teacherEmailAndId) {
   const teacherTabNames = teacherEmailAndId.map((tab) => tab[1]);
-  return teacherTabNames.includes(sheet.getName());
+  return teacherTabNames.includes(tab.getName());
 }
 
-function isStudentTab(sheet) {
-  return sheet.getName() === constants.STUDENT_TAB_NAME;
+function isStudentTab(tab) {
+  return tab.getName() === constants.STUDENT_TAB_NAME;
 }
 
 function getMapForCourseSlot() {
   return fetchCellValues(
     constants.META_TAB_NAME,
-    constants.HOURS_CELL_REFRENCE_IN_META_SHEET,
+    constants.RANGE_COURSE_HOURS_IN_META_TAB,
     true
   );
 }

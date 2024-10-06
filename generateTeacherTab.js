@@ -18,9 +18,9 @@ function generateTeacherTab() {
 }
 
 function getAllTeachers() {
-  const masterSheetName = constants.TEACHER_MASTER_TAB_NAME;
-  const lastRow = getTab(masterSheetName).getLastRow();
-  return fetchValuesInRange(masterSheetName, constants.TEACHER_DATA_RANGE_IN_MASTER_TAB + lastRow);
+  const masterTabName = constants.TEACHER_MASTER_TAB_NAME;
+  const lastRow = getTab(masterTabName).getLastRow();
+  return fetchValuesInRange(masterTabName, constants.TEACHER_DATA_RANGE_IN_MASTER_TAB + lastRow);
 }
 
 function getTeacherTabTemplate() {
@@ -54,18 +54,17 @@ function formatCourseOptions(optionsString) {
 
 
 function createCopyOfViewTemplate(templateTabName,nameToChangeNameOfTemplateCopy,teacherId) {  
-  var spreadsheet = getActiveSs();  
-  var templateSheetName = templateTabName;  
-  var newSheetName = nameToChangeNameOfTemplateCopy;    
+  var spreadsheet = getActiveSs();    
+  var newTabName = nameToChangeNameOfTemplateCopy;    
   
-  var templateSheet = getTab(templateSheetName);  
-  templateSheet.getRange(constants.CELL_TO_SET_THE_TEACHER_ID_IN_VIEW_TEMPLATE).setValue(teacherId);
+  var templateTab = getTab(templateTabName);  
+  templateTab.getRange(constants.CELL_TO_SET_THE_TEACHER_ID_IN_VIEW_TEMPLATE).setValue(teacherId);
   
-  if (!templateSheet) {  
-    throw new Error('Template sheet not found: ' + templateSheetName);  
+  if (!templateTab) {  
+    throw new Error('Template tab not found: ' + templateTabName);  
   }  
   
-  var newSheet = templateSheet.copyTo(spreadsheet);  
+  var newTab = templateTab.copyTo(spreadsheet);  
   
-  newSheet.setName(newSheetName);  
+  newTab.setName(newTabName);  
 } 

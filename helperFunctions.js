@@ -22,6 +22,22 @@ function addDataValidationDropdown(dropdownOptions, tabName, rangeForDropdown) {
   rangeForDropdown.setDataValidation(rule);
 }
 
+function addValidationToEmptyCells(emptyCellReferences, tabName, options) {  
+  const tab = getTab(tabName);
+  const rangeString = emptyCellReferences.join(',');
+
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(options, true)
+    .setAllowInvalid(false)
+    .build();
+
+  emptyCellReferences.forEach(cell => {
+    tab.getRange(cell).setDataValidation(rule);
+  });
+
+  Logger.log("Validation added to: " + rangeString);
+}
+
 function isCellTrue(tabName, row, column) {
   return getCellValue(tabName, column + row) === true;
 }
@@ -40,7 +56,7 @@ function isValueEmpty(value) {
 function hideRow(tabName,rowNumber) {
   const tab = getTab(tabName);
   if (!tab) {  
-    Logger.log('Sheet not found: ' + tabName);  
+    Logger.log('Tab not found: ' + tabName);  
     return;  
   }  
   
@@ -50,7 +66,7 @@ function hideRow(tabName,rowNumber) {
   }  
 
   tab.hideRows(rowNumber);  
-  Logger.log('Row ' + rowNumber + ' hidden in sheet: ' + tabName);  
+  Logger.log('Row ' + rowNumber + ' hidden in tab: ' + tabName);  
 }
 
 function addDataToTab(data, tabName) {

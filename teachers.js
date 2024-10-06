@@ -1,4 +1,4 @@
-function fetchAvailableSlotsForCourses() {
+function fetchCourseWiseAvailableSlots() {
   const courseSlots = getMapForCourseSlot();
   const courses = courseSlots.map(course => course[0]);
   const courseMapWithAvailableSlot = initializeCourseMap(courses);

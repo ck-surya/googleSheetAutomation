@@ -1,6 +1,6 @@
 function exportSchedule() {
   const ss = getActiveSs();
-  const sheet = getTab(constants.STUDENT_TAB_NAME);
+  const tab = getTab(constants.STUDENT_TAB_NAME);
   const exportFolderId = constants.EXPORT_ID;
 
   const currentDate = new Date();
@@ -19,7 +19,7 @@ function exportSchedule() {
     'pagenumbers': false,
     'gridlines': false,
     'fzr': false,
-    'gid': sheet.getSheetId()
+    'gid': tab.getSheetId()
   };
 
   const exportUrl = url + Object.keys(params).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&');

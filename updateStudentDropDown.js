@@ -12,8 +12,8 @@ function updateStudentDropDownValues() {
   );
   
   try {
-    const emptyCellMap = fetchCourseWiseEmptyCellsForStudents();
-    const availableSlotsMap = fetchAvailableSlotsForCourses();
+    const emptyCellMap = fetchCourseWiseEmptyHoursForStudents();
+    const availableSlotsMap = fetchCourseWiseAvailableSlots();
     addDropdownValues(availableSlotsMap, emptyCellMap);
   } catch (error) {
     SpreadsheetApp.getUi().alert(
@@ -55,7 +55,7 @@ function handleValidation(cellsArray, slotsArray) {
   }
 }
 
-function fetchCourseWiseEmptyCellsForStudents() {
+function fetchCourseWiseEmptyHoursForStudents() {
   const courseSlots = getMapForCourseSlot();
   const courses = courseSlots.map(course => course[0]);
 
@@ -64,22 +64,22 @@ function fetchCourseWiseEmptyCellsForStudents() {
   const dataRange = studentTab.getRange(constants.STUDENT_NAME_TO_HOURS_END_COL_RANGE + lastRow);
 
   const values = dataRange.getValues();
-  const courseMapWithCell = initializeCourseMap(courses);
+  const courseHourseMap = initializeCourseMap(courses);
 
-  populateCourseMap(values, courseMapWithCell);
-  return courseMapWithCell;
+  populateCourseMap(values, courseHourseMap);
+  return courseHourseMap;
 }
 
-function populateCourseMap(values, courseMapWithCell) {  
+function populateCourseMap(values, courseHourseMap) {  
   values.forEach((row, rowIndex) => {
     const hoursValues = row.slice(constants.COLUMN_INDEX_FOR_STUDENT_HOURS);    
     hoursValues.forEach((cellValue, colIndex) => {
       const cellReference = fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex);
       if (cellReference === false) return;
       if (row[constants.INDIVIDUAL_COL_NUMBER] === true) {
-        courseMapWithCell.indV[row[2]].push(cellReference);
+        courseHourseMap.indV[row[2]].push(cellReference);
       } else {
-        courseMapWithCell.otherV[row[2]].push(cellReference);
+        courseHourseMap.otherV[row[2]].push(cellReference);
       }
     });
   });
@@ -96,21 +96,4 @@ function fetchCellReferenceForEmptySlot(cellValue, colIndex, rowIndex) {
     return false;
   }
   return false;
-}
-
-function addValidationToEmptyCells(array, tabName, options) {
-  const emptyCellReferences = array;
-  const tab = getTab(tabName);
-  const rangeString = emptyCellReferences.join(',');
-
-  const rule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(options, true)
-    .setAllowInvalid(false)
-    .build();
-
-  emptyCellReferences.forEach(cell => {
-    tab.getRange(cell).setDataValidation(rule);
-  });
-
-  Logger.log("Validation added to: " + rangeString);
 }
