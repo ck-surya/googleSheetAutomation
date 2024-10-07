@@ -1,9 +1,9 @@
-function sendEmail(toSent, sentBy, subject, body) {
+function sendEmail(toSent, subject, body) {
   Logger.log(`Sending email to ${toSent}, subject: ${subject}`);
+  Logger.log(`Sending email from ${sentBy}`);
   try {
     MailApp.sendEmail({
       to: toSent,
-      from: sentBy,
       subject: subject,
       body: body
     });

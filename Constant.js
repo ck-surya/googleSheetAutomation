@@ -1,5 +1,4 @@
 const constants = {
-  EMAIL_ADDRESS_FROM: "cksurya7319@gmail.com",
   TEACHER_EMAIL_INDEX_IN_EMAIL_AND_ID_DATA: 0,
   TEACHER_EMAIL_CELL: "B2",
   DATA_START_ROW: 3,

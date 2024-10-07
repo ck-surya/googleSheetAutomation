@@ -13,7 +13,7 @@ function processSlotBooking(row, editedSlotName) {
     updateTeacherTabWithIndividualSlot(row, editedSlotName);    
   }  
   updateStudentDropDownValues();
-  notifyTeacherOfSlotBooking(getStudentName(row), slotName);
+  notifyTeacherOfSlotBooking(getStudentName(row), editedSlotName);
 }
 
 function studentHasIndividualSlot(row) {

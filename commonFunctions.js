@@ -114,7 +114,7 @@ function updateTeacherTabWithValue(
     const teacherData = teacherTab.getDataRange().getValues();
     const entryIndex = findEntryIndex(teacherData, editedSlot, editedCourse);
     if (entryIndex !== -1) {
-      updateValuesInTab(tab, entryIndex, editedCourse, value);
+      updateValuesInTab(teacherTab, entryIndex, editedCourse, value);
     } else {
       logError(
         `No matching slot/course found for ${editedSlot} and ${editedCourse} in tab ${tab.getName()}.`

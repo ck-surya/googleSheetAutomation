@@ -25,7 +25,7 @@ I wanted to inform you that the student, ${studentName}, has been added to your 
 Thanks and regards,  
 Activatic`;
   const emailSubject = "Notification of Student Slot Booking of Your Slot";
-  return sendEmail(teacherEmail, constants.EMAIL_ADDRESS_FROM, emailSubject, emailTemplate);
+  return sendEmail(teacherEmail, emailSubject, emailTemplate);
 }
 
 function notifyTeachersOfWithdrawnStudent(studentName, studentSlots) {
@@ -44,5 +44,5 @@ Thanks and regards,
 Upwork  
   `;
   const emailSubject = "Notification of Student Withdrawal from Your Slot";
-  return sendEmail(teacherEmail, constants.EMAIL_ADDRESS_FROM, emailSubject, emailTemplate);
+  return sendEmail(teacherEmail, emailSubject, emailTemplate);
 }
