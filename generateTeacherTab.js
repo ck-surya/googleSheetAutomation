@@ -20,7 +20,7 @@ function generateTeacherTab() {
 function getAllTeachers() {
   const masterTabName = constants.TEACHER_MASTER_TAB_NAME;
   const lastRow = getTab(masterTabName).getLastRow();
-  return fetchValuesInRange(masterTabName, constants.TEACHER_DATA_RANGE_IN_MASTER_TAB + lastRow);
+  return fetchValuesInRange(masterTabName, constants.TEACHER_DATA_RANGE_IN_MASTER_TAB + lastRow,true);
 }
 
 function getTeacherTabTemplate() {
