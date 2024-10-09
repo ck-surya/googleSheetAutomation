@@ -146,7 +146,7 @@ function updateValuesInTab(tab, index, course, value) {
 
   if (courseRow) {  
       const valueCount = courseRow[1] - 1;  
-      const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + repeatValue)}${index + 1}`);  
+      const range = tab.getRange(`${constants.RANGE_FOR_ADDING_UNDERSCORE_IN_TEACHER_TAB}${index + 1}:${getColumnFromIndex(3 + valueCount)}${index + 1}`);  
       setValuesForRange(range, value, valueCount);
   }  
 }  
