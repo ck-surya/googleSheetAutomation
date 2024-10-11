@@ -54,3 +54,32 @@ function updateOtherVAvailability(teacherId, slot, course, studentsCount, course
 function countNonEmptyStudents(studentArray) {
   return studentArray.filter(student => student.length).length;
 }
+
+function processHideTeachersTab(){
+  const teacherIds = getAllTeacherIds()
+  teacherIds.forEach(teacherId => {
+    hideTab(teacherId)
+  });
+}
+
+function processShowTeachersTab(){
+  const teacherIds = getAllTeacherIds()
+  teacherIds.forEach(teacherId => {
+    showTab(teacherId)
+  });
+}
+
+function processHideTeachersScheduleView(){
+  const teacherIds = getAllTeacherIds()
+  teacherIds.forEach(teacherId => {
+    hideTab(teacherId+"_SCHEDULE_VIEW")
+  });
+}
+
+function processShowTeachersScheduleView(){
+  const teacherIds = getAllTeacherIds()
+  teacherIds.forEach(teacherId => {
+    showTab(teacherId+"_SCHEDULE_VIEW")
+  });
+}
+

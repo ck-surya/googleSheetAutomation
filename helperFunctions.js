@@ -143,3 +143,11 @@ function setValuesForRange(range, value, valueCount) {
   const valueToSet = createValueSet(valueCount, value);  
   range.setValues([valueToSet]);   
 }
+
+function showTab(tabName){
+  getTab(tabName).showSheet()
+}
+
+function hideTab(tabName){
+  getTab(tabName).hideSheet()
+}
