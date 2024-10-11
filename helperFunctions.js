@@ -149,5 +149,9 @@ function showTab(tabName){
 }
 
 function hideTab(tabName){
-  getTab(tabName).hideSheet()
+  getTab(tabName).hideSheet();
+}
+
+function getExportDriveId(){
+  return getCellValue(constants.META_TAB_NAME,constants.EXPORT_DRIVE_ID_CELL)
 }
