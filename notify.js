@@ -46,3 +46,22 @@ Upwork
   const emailSubject = "Notification of Student Withdrawal from Your Slot";
   return sendEmail(teacherEmail, emailSubject, emailTemplate);
 }
+
+function notifyTeachersOfExitingHourStudent(studentName, studentSlots) {
+  notifyTeacher(studentName, studentSlots, sendNotificationForExitingHourStudent);
+}
+
+function sendNotificationForExitingHourStudent(teacherEmail, studentName, slotName) {
+  const teacherName = slotName.split("_")[0].split("-")[1].trim();
+  const emailTemplate = `  
+
+Hi ${teacherName},  
+
+I wanted to inform you that the student, ${studentName}, has been removed from your slot, ${slotName}.  
+
+Thanks and regards,  
+Upwork  
+  `;
+  const emailSubject = "Notification of Student has been removed from Your Slot";
+  return sendEmail(teacherEmail, emailSubject, emailTemplate);
+}

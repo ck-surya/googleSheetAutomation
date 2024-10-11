@@ -11,7 +11,7 @@ function processStudentTabEdits(column, row, editedValue, oldValue) {
 function processSlotBooking(row, editedSlotName, oldValue) {
   if (studentHasIndividualSlot(row)) {
     if (isValueEmpty(editedSlotName)) {
-      updateTeacherTabWithIndividualSlotForExitingFromHour(oldValue);
+      updateTeacherTabWithIndividualSlotForExitingFromHour(row, oldValue);
     } else {
       updateTeacherTabWithIndividualSlot(editedSlotName);
     }
@@ -37,10 +37,11 @@ function updateTeacherTabWithIndividualSlot(slotName) {
   }
 }
 
-function updateTeacherTabWithIndividualSlotForExitingFromHour(oldValue) {
+function updateTeacherTabWithIndividualSlotForExitingFromHour(row, oldValue) {
   try {
-    const [teacherTabName, deletedSlots, deletedCourse] = oldValue.split("_");
-    updateTeacherTabWithValue(teacherTabName, deletedSlots, deletedCourse, "");
+    const [teacherTabName, deletedSlot, deletedCourse] = oldValue.split("_");
+    updateTeacherTabWithValue(teacherTabName, deletedSlot, deletedCourse, "");
+    notifyTeachersOfExitingHourStudent(getStudentName(row), [oldValue]);
   } catch (error) {
     console.error("Error in handleIndV:", error.message);
   }
