@@ -1,6 +1,6 @@
 function exportSchedule() {
   const ss = getActiveSs();
-  const exportFolderId = DriveApp.getFolderById(constants.EXPORT_ID);
+  const exportFolderId = DriveApp.getFolderById(getExportDriveId());
   const currentDate = new Date().toISOString();
 
   try {

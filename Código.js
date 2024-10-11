@@ -2,6 +2,7 @@ function onOpen() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu("Custom Filter")
     .addItem("Generate Teacher Tab", "generateTeacherTab")
+    .addItem("Export Teachers Schedule View", "exportSchedule")
     .addItem("Update Dropdown option", "updateStudentDropDownValues")
     .addItem("Hide Teachers Tab Name", "processHideTeachersTab")
     .addItem("show Teachers Tab Name", "processShowTeachersTab")
