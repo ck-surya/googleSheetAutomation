@@ -6,6 +6,7 @@ function updateStudentDropDownValues() {
     return;
   }
   isScriptRunning = true;
+  removeDataValidation(constants.STUDENT_TAB_NAME,constants.COLUMN_HOUR_FIRST_IN_STUDENT_TAB+4,constants.COLUMN_HOUR_LAST_IN_STUDENT_TAB);
   SpreadsheetApp.getActiveSpreadsheet().toast(
     "Updating dropdown options...",
     "Loading..."

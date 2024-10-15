@@ -151,3 +151,10 @@ function updateValuesInTab(tab, index, course, value) {
   }  
 }  
 
+function removeDataValidation(tabName,colStart,colEnd) {  
+  var tab = getTab(tabName);  
+  var lastRow = tab.getLastRow();
+  var range = tab.getRange(colStart+":"+colEnd+lastRow); 
+  
+  range.clearDataValidations();  
+}
