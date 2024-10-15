@@ -8,9 +8,11 @@ function onOpen() {
     .addItem("show Teachers Tab Name", "processShowTeachersTab")
     .addItem("Hide Teachers Schedule View Tab Name", "processHideTeachersScheduleView")
     .addItem("Show Teachers Schedule View Tab Name", "processShowTeachersScheduleView")
-
     .addToUi();
-}
+    
+    protectRange(constants.TEACHER_MASTER_TAB_NAME,constants.RANGE_TO_PROTECT_IN_MASTER_TAB)
+  } 
+
 let isScriptRunning = false;
 
 function handleEdit(e) {
