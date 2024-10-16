@@ -9,8 +9,7 @@ function onOpen() {
     .addItem("Hide Teachers Schedule View Tab Name", "processHideTeachersScheduleView")
     .addItem("Show Teachers Schedule View Tab Name", "processShowTeachersScheduleView")
     .addToUi();
-    
-    protectRange(constants.TEACHER_MASTER_TAB_NAME,constants.RANGE_TO_PROTECT_IN_MASTER_TAB)
+
   } 
 
 let isScriptRunning = false;
@@ -31,4 +30,5 @@ function handleEdit(e) {
 
 function test() {
   protectRange("1 - Paula", "A1:K2");
+  protectRange(constants.TEACHER_MASTER_TAB_NAME,constants.RANGE_TO_PROTECT_IN_MASTER_TAB)
 }
